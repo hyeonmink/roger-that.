@@ -42,7 +42,6 @@ $(function() {
                         return count = d3.sum(d, function(v) { return v.nkill; })
                       })
                       .entries(data);
-    console.log(prepData);   
         
 
     var arc = g.selectAll(".arc")
