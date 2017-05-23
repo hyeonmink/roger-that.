@@ -20,6 +20,7 @@ p {
 
 .title {
 	text-anchor:middle;
+  width: 75vw;
 }
 
 .axis text {
@@ -64,7 +65,7 @@ form {
 }
 
 img {
-  height: 500px;
+  height: 650px;
 }
 
 #landing {
