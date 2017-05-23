@@ -33,7 +33,7 @@ $(function() {
         .outerRadius(radius - 40)
         .innerRadius(radius - 40);
 
-    d3.csv("../data/globalterrorismdb_0616dist.csv", function(error, data) {
+    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
 
 
         var prepData = d3.nest()
