@@ -51,7 +51,7 @@ $(function() {
 
     arc.append("path")
         .attr("d", path)
-        .attr("fill", function(d) { console.log(d); return color(d.data.key); });
+        .attr("fill", function(d) { return color(d.data.key); });
 
     arc.append("text")
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
