@@ -13,6 +13,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/scroll.css" />
+    <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre" rel="stylesheet">
 
     <!-- your script file -->
     <script src="js/BarChart.js"></script>
@@ -23,9 +24,9 @@
     <script src="js/map.js"></script>
 </head>
 <body>
+    <img src="./img/candles.jpg" alt="candles" id="candle-pic"/>    
     <div id='nav-bar'></div>
     <div class="container" ng-app="myApp" id="app" ng-controller="MainController">
-        <h1>Global Terrorism</h1>
         <div id="sandbox">
             
             <div id='graphic'>
@@ -33,13 +34,21 @@
 
                 <div id='sections'>
                     <section class="step" id="landing">
-                        <div class="title">’The death of one man is a tragedy. The death of millions is a statistic’ <br>
- 	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Joseph Stalin <br><br>
+                        <h1>Global Terrorism</h1>
+                        <div class="title" id="landing-title"><h3><b>"The death of one man is a tragedy. The death of millions is a statistic"</b> <br>
+ 	                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Joseph Stalin</h3> <br><br>
 
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbspWhile there are countless data visualizations involving terrorism and its many tragedies, the unfortunate truth is that many of these visualizations do not give the emotional information the depth it deserves. While these visualizations are still informational in its own way, they typically allow the creator and the user to distance themselves from this data. A simple color encoding does not express the calamity of loss of life.
 <br><br>
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOur goal is to visualize terrorism data provided publicly but the Global Terrorism Database (GTD) that emphasizes this emotional aspect. Rather than using the word ‘terrorist,’ which tends to be socially charged, we will used the word ‘assailant.’</div>
-                        <img src="./img/candles.jpg" alt="candles"/>
+                        <!--<img src="./img/candles.jpg" alt="candles" id="candle-pic"/>-->
                     </section>
                     <section class="step" id="glance">
                         <div class="title">At a Glance</div>
