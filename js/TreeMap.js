@@ -1,6 +1,6 @@
 var TreeMap = function() {
     // Set the dimensions and margins of the diagram
-    var margin = {top: 70, right: 90, bottom: 30, left: 20},
+    var margin = {top: 100, right: 90, bottom: 30, left: 20},
         width = 500 - margin.left - margin.right,
         height = 1000 - margin.top - margin.bottom;
 
