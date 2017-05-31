@@ -1,6 +1,8 @@
+const defaultYear = 1970;
+const defaultMapType = 'terrain'
 var googleMap = function(){
-    let year = 1970;
-    let mapTypeName = 'terrain'
+    let year = defaultYear;
+    let mapTypeName = defaultMapType;
     var map = (selection)=>{
         selection.each((data)=>{
             let filteredData = data.filter((d)=>{
@@ -23,13 +25,24 @@ var googleMap = function(){
                     map: map,
                     title: data.country_txt
                 })
-                google.maps.event.addListener(marker, 'click', function() { 
-                alert("I am marker " + marker.title); 
-                }); 
+                let year = (data.iyear != 0 ? data.iyear : "unknown")
+                let month = (data.imonth != 0 ? data.imonth : "unknown")
+                let day = (data.iday != 0 ? data.iday : "unknown")
+                let location = (data.city == 'unknown' ? provstate : data.city)
+                let currentMark
+                var infowindow = new google.maps.InfoWindow({
+                    content: `<h2>${year}/${month}/${day}</h2><p>${location}, ${data.country_txt} (${data.region_txt})</p><p>${data.summary}</p>`
+                });
+
+                marker.addListener('click', function(){
+                    infowindow.open(map, marker);
+                });
+                
                 return marker;  
             });
             var markerCluster = new MarkerClusterer(map, markers,
-                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
+            );
         })
     }
     map.year = function(value){
