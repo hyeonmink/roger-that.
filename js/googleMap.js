@@ -28,7 +28,7 @@ var googleMap = function(){
                 let year = (data.iyear != 0 ? data.iyear : "unknown")
                 let month = (data.imonth != 0 ? data.imonth : "unknown")
                 let day = (data.iday != 0 ? data.iday : "unknown")
-                let location = (data.city == 'unknown' ? provstate : data.city)
+                let location = (data.city == 'unknown' ? data.provstate : data.city)
                 let currentMark
                 var infowindow = new google.maps.InfoWindow({
                     content: `<h2>${year}/${month}/${day}</h2><p>${location}, ${data.country_txt} (${data.region_txt})</p><p>${data.summary}</p>`
@@ -56,5 +56,6 @@ var googleMap = function(){
         mapTypeName = value;
         return map;
     }
+
     return map
 }
