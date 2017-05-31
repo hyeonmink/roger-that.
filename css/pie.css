@@ -1,31 +1,16 @@
- text {
-    font-family: sans-serif;
-    font-size: 12px;
-    fill: white;
-}
-
-#tooltip {
+#attackTypesVis {                                                          /* NEW */
+    height: 360px;                                                  /* NEW */
+    position: relative;
+    width: 360px;                                                   /* NEW */
+}                                                                 /* NEW */
+.toooltip {                                                        /* NEW */
+    background: #eee;                                               /* NEW */
+    box-shadow: 0 0 5px #999999;
+    color: black;                                                    /* NEW */
+    display: none;                                                  /* NEW */
+    font-size: 12px;                                                /* NEW */
+    padding: 10px;                                                  /* NEW */
     position: absolute;
-    width: 200px;
-    height: auto;
-    padding: 10px;
-    background-color: white;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    -mox-box-shadow: 4px 4px 4px 10px rgba(0, 0, 0, 0.4);
-    box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4)
-    /*pointer-events: none;*/
-}
-
-#tooltip.hidden {
-    display: none;
-}
-
-#tooltip p {
-    margin: 0;
-    font-family: sans-serif;
-    font-size: 16px;
-            line-height: 20px;
-}
+    text-align: center;                                             /* NEW */
+    z-index: 10;                                                    /* NEW */
+}                                                                   /* NEW */
