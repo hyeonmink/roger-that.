@@ -1,81 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- 
+    Link to Vincent's project: http://students.washington.edu/wuv21/info474/voting-sys-vis/
+    Link to Vincent's Code: https://github.com/wuv21/voting-sys-vis/blob/master/js/PebbleChart.js
+
+    Next steps: probably problem with data joining - either in main file when first join data or in peopleChart.js.
+    Should probably follow the code to see where svg’s are appended and ensure that .data or .datum is used correctly
+--> 
+
+
+
 <head>
-    <meta charset="UTF-8">
-    <title>Global Terrorism</title>
+    <meta charset="utf-8">
+    <title>D3: Empty page template</title>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 
-    <!-- Libraries -->
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src='./js/PeopleChart.js'></script>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/scroll.css" />
-    <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre" rel="stylesheet">
 
-    <!-- your script file -->
-    <script src="js/BarChart.js"></script>
-    <script src="js/TreeMap.js"></script>
-    <script src="js/PieChart.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/map.js"></script>
+    <script type='text/javascript'>
+        $(function () {
+            d3.csv('./data/data_light.csv', function (data) {
+
+                var nest = d3.nest()
+                    .key(function (d) {
+                        return d.country_txt;
+                    })
+                
+                var nestedData = nest.entries(data)
+                var pChart = PeopleChart()
+                // console.log(nestedData)
+                // var x = [];
+                // x.push(nestedData);
+
+                var charts = d3.select('#vis')
+                    .datum(data)
+
+                charts.enter().append("div")
+                    .attr('class', 'chart')
+                    .merge(charts)
+                    .call(pChart);
+
+                charts.exit().remove();
+
+
+                // var chartWrapper = d3.select('#vis')
+                //     .data(nestedData) // a one element array containing your data array
+                //     .call(chart); // call the chart function!
+            });
+        });
+    </script>
 </head>
+
 <body>
-    <img src="./img/candles.jpg" alt="candles" id="candle-pic"/>    
-    <div id='nav-bar'></div>
-    <div class="container" ng-app="myApp" id="app" ng-controller="MainController">
-        <div id="sandbox">
-            
-            <div id='graphic'>
-                <!--<div id='nav-bar'></div>-->
 
-                <div id='sections'>
-                    <section class="step" id="landing">
-                        <h1>Global Terrorism</h1>
-                        <div class="title" id="landing-title"><h3><b>"The death of one man is a tragedy. The death of millions is a statistic"</b> <br>
- 	                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Joseph Stalin</h3> <br><br>
-
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbspWhile there are countless data visualizations involving terrorism and its many tragedies, the unfortunate truth is that many of these visualizations do not give the emotional information the depth it deserves. While these visualizations are still informational in its own way, they typically allow the creator and the user to distance themselves from this data. A simple color encoding does not express the calamity of loss of life.
-<br><br>
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOur goal is to visualize terrorism data provided publicly but the Global Terrorism Database (GTD) that emphasizes this emotional aspect. Rather than using the word ‘terrorist,’ which tends to be socially charged, we will used the word ‘assailant.’</div>
-                        <!--<img src="./img/candles.jpg" alt="candles" id="candle-pic"/>-->
-                    </section>
-                    <section class="step" id="glance">
-                        <div class="title">At a Glance</div>
-                        <div id="map" class="container"></div>
-                    </section>
-                    <section class="step" id="incidents">
-                        <div class="title">Count of Incidents</div>
-                    </section>
-                    <section class="step" id="ransom">
-                        <div class="title">Highest Ransom</div>
-                    </section>
-                    <section class="step" id="cause">
-                        <div class="title">Cause and Frequency of Attacks</div>
-                    </section>
-                    <section class="step" id="claims">
-                        <div class="title">Deadly Attack Types</div>
-                        <svg id="attackTypesVis"></svg>
-                    </section>
-                </div>
-
-                <div id='vis'>
-                </div>
-            </div>
-        </div>
-        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-        </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKXJ36LSOqE5dm8OYof_2eFGrBMbBP8X0&callback=initMap">
-        </script>
+    <div id='vis'>
+    </div>
 </body>
+
 </html>
