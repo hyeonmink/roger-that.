@@ -16,14 +16,11 @@ var treeData = {
     "children": [{ 
         "name": "At a Glance",
         "children": [{
-            "name": "Count of Incidents",
+            "name": "Lives Lost",
             "children": [{
                 "name": "Highest Ransom",
                 "children": [{
-                    "name": "Cause and Frequency of Attacks",
-                    "children": [{
-                        "name": "Attack Types"
-                    }]
+                    "name": "Attack Types"
                 }]
             }]
         }]
@@ -66,10 +63,6 @@ $(function() {
             fillColor = 'green';
             resetTree();
             $("#circle5").css("fill", "#fff");
-        } else if (index == 5) {
-            fillColor = 'green';
-            resetTree();
-            $("#circle6").css("fill", "#fff");
         } else {
             fillColor = 'black';
             nodeFill = '#fff';
@@ -118,14 +111,8 @@ $(function() {
 
     $("#circle5").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("cause")
-        update(4);
-    });
-
-    $("#circle6").on('click', function(e) {
-        e.preventDefault();
         goToByScroll("types")
-        update(5);
+        update(4);
     });
 
     // Define a new scroller, and use the `.container` method to specify the desired container
