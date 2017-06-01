@@ -25,6 +25,7 @@ var treeData = {
 };
 
 $(function() {
+    $("#ex2").slider({});
     // // Instantiate your chart with given settings
     // var myChart = BarChart().xVar('name')
     //     .yVar('value')

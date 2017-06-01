@@ -9,6 +9,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/css/bootstrap-slider.css" rel="stylesheet" type="text/css"></link>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/main.css" />
@@ -17,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre" rel="stylesheet">
 
     <!-- your script file -->
+    <script src="js/style.js"></script>
     <script src="js/BarChart.js"></script>
     <script src="js/TreeMap.js"></script>
     <script src="js/PieChart.js"></script>
@@ -51,6 +54,7 @@
                     </section>
                     <section class="step" id="glance">
                         <div class="title">At a Glance</div>
+                        <b>1970</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="1970" data-slider-max="2015" data-slider-step="1" data-slider-value="[250,450]"/> <b>2015</b>
                         <ul id="radioBtns"></ul>
                         <button id="mapBtn">Submit</button>
                         <div id="map" class="container"></div>
@@ -71,7 +75,7 @@
         </div>
         <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
         </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKXJ36LSOqE5dm8OYof_2eFGrBMbBP8X0&callback=initMap">
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKXJ36LSOqE5dm8OYof_2eFGrBMbBP8X0&callback=run">
         </script>
 </body>
 </html>
