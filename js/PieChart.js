@@ -1,82 +1,110 @@
 $(function() {
 
+    
+    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
+        var pie = PieChart()
+        var myPieChart = d3.select('#attackTypesVis')
+                            .datum(data)
+
+
+
+        myPieChart.enter().append('div')
+                    .attr('class', 'myPieChart')
+                    .merge(myPieChart)
+                    .call(pie);
+
+        myPieChart.exit().remove();
+    });
+
+var PieChart = function() {
+
     var margin = {
         top: 100,
         right: 10,
         bottom: 150,
         left: 60
     };
+
     var width = 960;
     var height = 600;
-
     var drawWidth = width - margin.left - margin.right;
     var drawHeight = height - margin.top - margin.bottom;
-
-    var svg = d3.select("#attackTypesVis")
-                .attr('width', width)
-                .attr('height', height);
-
-    radius = Math.min(width, height) / 2,
-    g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    var radius = Math.min(width, height) / 2;
+    var donutwidth = radius /2; 
 
     var color = d3.scaleOrdinal(d3.schemeCategory20b);
 
-    var pie = d3.pie()
-        .sort(function(a, b) {
-            return a.value - b.value;
-        })
-        .value(function(d) { return d.value; });
+    var chart = function(selection) {
+
+        var svg = d3.select("#attackTypesVis")
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+    
+        g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var pie = d3.pie()
+            .sort(function(a, b) {
+                return a.value - b.value;
+            })
+            .value(function(d) { return d.value; });
+
+        var tooltip = d3.select('#attackTypesVis')                               
+            .append('div')                                                
+            .attr('class', 'toooltip')
+            .style('width', donutwidth + "px")
+            .style('left', (drawWidth / 2) - 35 + "px")
+            .style('top', (drawHeight / 2) + "px");   
+                        
+        tooltip.append('p')
+            .attr('class', 'type');
+                
+        tooltip.append('p')
+            .attr('class', 'deathcount');
+
+        var path = d3.arc()
+            .outerRadius(radius - donutwidth)
+            .innerRadius(radius);
+
+        var label = d3.arc()
+            .outerRadius(radius)
+            .innerRadius(radius - 40);
 
 
-    var path = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
-
-    var label = d3.arc()
-        .outerRadius(radius - 40)
-        .innerRadius(radius - 40);
-
-    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
-
-
-        var prepData = d3.nest()
+        selection.each(function(data) {
+            var prepData = d3.nest()
                         .key(function(d) { return d.attacktype1_txt; })
                         .rollup(function(d) {
                         return count = d3.sum(d, function(v) { return v.nkill; })
                         })
                         .entries(data);
-            
 
-        var arc = g.selectAll(".arc")
-            .data(pie(prepData))
-            .enter().append("g")
-            .attr("class", "arc")
-            
-            // .on("mouseover", function(d) {
-            //     //console.log(d);
-            //     //console.log(d3.selectAll(".tooltip")._groups[0]);
-            //     // d3.selectAll(".tooltip")[d.index].style('opacity', 1);
-            //         // .select("#value").text(d.data.value);
-            // })
-            // .on("mousemove", function(d) {
-            //     d3.selectAll(".tooltip").style("top", (d3.event.pageY - 10) + "px")
-            //     .style("left", (d3.event.pageX + 10) + "px");
-            // })
-            // .on("mouseout", function() {
-            //     d3.selectAll(".tooltip").style('opacity', 0);
-            // });
+            var arc = g.selectAll(".arc")
+                .data(pie(prepData))
+                .enter().append("g")
+                .attr("class", "arc")
+                
+            arc.append("path")
+                .attr('class', 'paths')
+                .attr("d", path)
+                .attr("fill", function(d) { return color(d.data.key); })
 
-        arc.append("path")
-            .attr("d", path)
-            .attr("fill", function(d) { console.log(d); return color(d.data.key); })
+                svg.selectAll('path').on('mouseover', function(d) {
+                    tooltip.select('.type').html('<p>From<br /><strong>' + d.data.key + '</strong> type of attacks,</p>'); 
+                    tooltip.select('.deathcount').html('<p><strong>' + Math.round(d.data.value) + '</strong> people died. </p>'); 
+                    tooltip.style('display', 'block');
+                    svg.selectAll('path').attr('opacity', 0.3);
+                    event.srcElement.attributes.opacity.value = 1;
 
-        arc.append("text")
-            .attr("class", "tooltip")
-            .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-            .attr("dy", "0.35em")
-            .text(function(d) { console.log(d.data.key); return d.data.key; });
+                })
+                .on('mouseout', function() {
+                    tooltip.style('display', 'none');
+                    svg.selectAll('path').attr('opacity', 1)
+                });
+        });
+    }
 
-        
-     
-    });
+    return chart;
+}
+
 });
