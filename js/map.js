@@ -3,7 +3,7 @@ let array = []
 let checks = [1970]
 function initMap() {
     function draw(checks){
-        d3.csv("./data/globalterrorismdb_0616dist.csv", (data) => {
+        d3.csv("./data/test.csv", (data) => {
             let min = +d3.min(data, function(d) { return d.iyear; })
             let max = +d3.max(data, function(d) { return d.iyear; })
             renderBtn(min, max)
@@ -24,12 +24,17 @@ function initMap() {
         var ul = document.getElementById('radioBtns');
         ul.innerHTML = '';
         var li = document.createElement('li');
-
+                console.log(checks)
         for(var i = low; i <= high; i++){
             var checkbox = document.createElement('input');
                 checkbox.type = "checkbox";
                 checkbox.value = i;
-                checkbox.autocomplete = "of"
+                checkbox.autocomplete = "off"
+                console.log(checks.indexOf(i))
+                if(checks.indexOf(i) != -1){
+                    checkbox.checked = "true"
+                }
+                
 
             li.appendChild(checkbox)
             li.appendChild(document.createTextNode(i));
