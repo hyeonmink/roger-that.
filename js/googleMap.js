@@ -1,12 +1,12 @@
-const defaultYear = 1970;
+const defaultYear = [2015];
 const defaultMapType = 'terrain'
 var googleMap = function(){
-    let year = defaultYear;
+    let years = defaultYear;
     let mapTypeName = defaultMapType;
     var map = (selection)=>{
         selection.each((data)=>{
             let filteredData = data.filter((d)=>{
-                if (d.iyear == year){
+                if (years.indexOf(+d.iyear) != -1){
                     return d;
                 }
             })
@@ -45,9 +45,9 @@ var googleMap = function(){
             );
         })
     }
-    map.year = function(value){
-        if (!arguments.length) return year;
-        year = value;
+    map.years = function(value){
+        if (!arguments.length) return years;
+        years = value;
         return map;
     }
     
@@ -56,6 +56,5 @@ var googleMap = function(){
         mapTypeName = value;
         return map;
     }
-
     return map
 }

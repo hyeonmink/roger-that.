@@ -1,14 +1,13 @@
 //initialize the map
-let year = 1970;
 let array = []
+let checks = [1970]
 function initMap() {
-    function draw(year){
+    function draw(checks){
         d3.csv("./data/globalterrorismdb_0616dist.csv", (data) => {
             let min = +d3.min(data, function(d) { return d.iyear; })
             let max = +d3.max(data, function(d) { return d.iyear; })
             renderBtn(min, max)
-
-            var map = googleMap().year(year)
+            var map = googleMap().years(checks)
                                 .mapType('terrain')
 
             var drawMap = d3.select('#map').append("div")
@@ -24,19 +23,29 @@ function initMap() {
     function renderBtn(low, high){
         var ul = document.getElementById('radioBtns');
         ul.innerHTML = '';
-        var li = document.createElement('li');//li
+        var li = document.createElement('li');
 
         for(var i = low; i <= high; i++){
             var checkbox = document.createElement('input');
                 checkbox.type = "checkbox";
                 checkbox.value = i;
+                checkbox.autocomplete = "of"
 
             li.appendChild(checkbox)
             li.appendChild(document.createTextNode(i));
             ul.appendChild(li);
         }
-        
     }
 
-    draw(year);
+    document.getElementById('mapBtn').addEventListener('click',(evt)=>{
+        evt.preventDefault();
+        checks = [];
+        $("input:checkbox[type=checkbox]:checked").each(function(){
+            checks.push(+$(this).val());
+        });
+        console.log(checks)
+        draw(checks);
+    })
+
+    draw(checks);
 }
