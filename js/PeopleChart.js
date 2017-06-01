@@ -1,136 +1,111 @@
 'use strict';
+$(function() {
+    var yearTarget;
+    var dim = {width: 960, height: 500};
+    var margin = {top: 10, bottom: 50, left: 50, right: 10};
+    var inputHeight = 20;
+    var numberFormat = d3.format('.0f');
+    dim.graphWidth = dim.width - margin.left - margin.right;
+    dim.graphHeight = dim.height - margin.top - margin.bottom;
 
-function PeopleChart() {
-    var personSize = 8,
-        personMargin = 5,
-        personCols = 7,
-        color = d3.scaleOrdinal(d3.schemeCategory10);
-    var transitionDelay = 1500;
+    var svg = d3.select('body').append('svg')
+        .attr('width', dim.width)
+        .attr('height', dim.height);
+    var axisLayer = svg.append('g').attr('transform','translate(' + margin.left + ',' + margin.top + ')');
+    var graphLayer = svg.append('g').attr('transform','translate(' + margin.left + ',' + margin.top + ')');
 
-    var width = 450,
-        height = 500;
+    var xScale = d3.scaleBand().range([0,dim.graphWidth],0.05);
+    var xLocalScale = d3.scaleBand();
+    var yScale = d3.scaleBand().range([dim.graphHeight, 0]);
+    var colorScale = d3.scaleOrdinal(d3.schemeCategory20b);
+    // var colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-    var margin = { left: 10, top: 10, bottom: 20, right: 10 };
+    var xAxis = d3.axisBottom().scale(xScale);
+    var yAxis = d3.axisLeft().scale(yScale);
 
-    var chart = function (selection) {
-        selection.each(function (data) {
+    var xAxisObj = axisLayer.append('g')
+        .attr('transform','translate('+0+','+dim.graphHeight+')')
+        .attr('class','axis')
+        .call(xAxis);
+    var yAxisObj = axisLayer.append('g')
+        .attr('transform','translate('+0 +','+0+')')
+        .attr('class','axis')
+        .call(yAxis);
 
-            var prepData = d3.nest()
-                                .key(function(d) {
-                                    //console.log((d.iyear).substring(0, 3))
-                                    return (d.iyear).substring(0, 3);
-                                })
-                                .rollup(function(d) {
-                                    return d3.sum(d, function(v) { return v.nkill; })
-                                })
-                                .entries(data);
+    axisLayer.selectAll('.axis text').style('font','14px "Lucida Grande", Helvetica, Arial, sans-serif');
+    axisLayer.selectAll('.axis path.domain').style({fill:'none',stroke:'#000000','shape-rendering':'crispEdges'});
 
-            console.log(prepData);
+    var time = 0;
+    var yearLabel = 'year';
+    var radius = 3;
+    var mar = 0.6;
+    var barWidth = 16;
+    var displaydata = [];
+    var years = [];
 
-
-
-
-
-
-
-            var categories = []; //List of all the catories - in this case country names
-            data.forEach(function (x) {
-                if (!categories.includes(x.natlty1_txt)) { //assumes category is country name so natlty1_txt
-                    categories.push(x.natlty1_txt); // For reusability replace natlty1_txt with variable that represents user input later
-                }
-            });
-            categories = categories.sort();
-            var xScale = d3.scaleBand().domain(categories).range([margin.left, width - margin.right], 0);
-            var rowScale = d3.scaleLinear().domain([0, personCols - 1]).range([0, personSize * personCols + ((personCols - 1) * personMargin)]);
-
-            var deathCounter = [];
-
-            for (var i = 0; i < categories.length; i++) {
-                deathCounter.push({
-                    xCounter: 0, // x counter is the correct x position (each country hsa a different one)
-                    yCounter: 0, //total number of kills
-                    hCounter: 0 // height
-                });
-            }
-
-            var svg = d3.select(this)
-                .selectAll('.peopleCharts')
-                .data(data, function (d) {
-                    return [d.natlty1_txt, +d.nkill]
-                });
-
-            var svgEnter = svg.enter()
-                .append('svg')
-                .attr('class', 'peopleCharts')
-                .attr('width', width)
-                .attr('height', height);
-
-            var xAxisLabel = svg.append('g')
-                .attr('class', 'axis')
-                .attr('transform', 'translate(' + margin.left + ',' + (height - margin.top - margin.bottom) + ')');
-
-            var xAxis = d3.axisBottom()
-                .scale(xScale)
-            xAxisLabel.transition().duration(400).call(xAxis);
-
-            svg.exit().remove();
-
-            var allData = [];
-            var counter = 0
-            data.forEach(function(node) { // enter function can only take in one kill at a time
-                for(i = 0; i < node.nkill; i++) {
-                    allData.push([node.natlty1_txt, 1])
-                }
-            });
-
-            var people = svgEnter.selectAll('.people').data(allData);
-
-            people.enter()
-                .append('rect')
-                .attr('class', 'people')
-                .attr('width', personSize)
-                .attr('height', personSize)
-                .style('fill', function (d) { return color(d[0]) })
-                .attr("x", width / 2)
-                .attr("y", 0)
-                .attr("title", function (x, i) { return x[0] + '-' + i })
-                .on('mouseover', function (d) {
-                    d3.select(this)
-                        .style('fill', 'cyan');
-                })
-                .on('mouseout', function (d) {
-                    d3.select(this)
-                        .style('fill', function (d) { return color(d[0]) });
-                })
-                .append("rect:title")
-                .text(function (d, i) { return i })
-                .transition()
-                .duration(function (d, i) { return i / allData.length * transitionDelay; })
-                .duration(100)
-                .attr("x", function (d) {
-                    var index = categories.indexOf(d[0]);
-
-                    deathCounter[index].xCounter++;
-                    var adjustment = xScale.range() / 2 - (personSize * personCols + personMargin * (personCols - 1)) / 2;
-
-                    return margin.left + xScale(d[0]) + adjustment + rowScale((deathCounter[index].xCounter - 1) % personCols);
-                })
-                .attr("y", function (d) {
-                    var index = categories.indexOf(d[0]);
-                    deathCounter[index].yCounter++;
-                    
-                    if ((deathCounter[index].yCounter - 1) % personCols == 0) {
-                        deathCounter[index].hCounter++;
-                    }
-
-                    return (height - margin.bottom - margin.top) - (deathCounter[index].hCounter * (personMargin + personSize));
-                });
-
-            people.exit().transition().duration(function (d, i) { return i / allData.length * transitionDelay }).remove();
-        })
+    d3.csv('../data/globalterrorismdb_0616dist.csv', function(error,datum) {
+            var raw = d3.nest()
+                    .key(function(d) {
+                        return (d.iyear).substring(0, 3);
+                    })
+                    .rollup(function(d) {
+                        return d3.sum(d, function(v) { return Math.round(v.nkill); })
+                    })
+                    .entries(datum);
+            
+            raw.forEach(function(d) { d.key = (d.key).substring(2) + "0's" });
+            var years2 = raw.map(function(d) { return d.key });
+            var deaths = raw.map(function(d) { return d.value; });
+    if (error != null)
+    {
+        console.log(error);
+        return;
     }
-    console.log('done')
-    return chart;
-}
+
+    var parties = years2;
+    var partDict = {};
+    parties.forEach(function(d,i)
+    {
+        partDict[d] = i;
+    });
+    var sums = {};
+    var data = {};
+
+    data[0] = deaths;
+
+    var max = d3.max(deaths);
+    var nrow = Math.ceil(dim.graphHeight/(2*(radius+mar)));
+    barWidth = Math.ceil(max/nrow);
+    yScale.domain(d3.range(nrow));
+    yAxis.tickValues(d3.range(nrow).filter(function(d){return d%10===0;}));
+    yAxis.tickFormat(function(d){return (d*barWidth);});
+    xScale.domain(parties.map(function(d,i){return i;}));
+    xAxis.tickFormat(function(d){return parties[d];});
+    xAxisObj.call(xAxis);
+    yAxisObj.call(yAxis);
+    xLocalScale.range([0,xScale.bandwidth()]).domain(d3.range(barWidth));
+    colorScale.domain(d3.range(parties.length));
+
+    var summax = d3.sum(deaths)
+    var displaydata = d3.range(summax).map(function(d){return [];});
+
+    var indexMargin = 0;
+    parties.forEach(function(party,partyidx)
+    {
+        for (var i=0;i<data[0][partyidx];++i)
+        {
+        displaydata[indexMargin+i].push({label:partyidx,idx:i});
+        }
+        indexMargin += data[0][partyidx];
+    });
 
 
+    var votes = graphLayer.selectAll('.vote').data(displaydata).enter().append('circle')
+        .attr('class','vote')
+        .attr('r',radius)
+        .attr('cx',function(d){ return ((d[time].label!=null)?(xScale(d[time].label)+xLocalScale(d[time].idx%barWidth)+radius+mar):(dim.graphWidth/2)); })
+        .attr('cy',function(d){return ((d[time].label!=null)?(yScale(Math.floor((d[time].idx+0.1)/barWidth))-radius-mar):0);})
+        .style('opacity',function(d){return (d[time].label!=null)?0.8:0.0;})
+        .style('fill',function(d){return colorScale(d[time].label);});
+    });
+});

@@ -14,42 +14,36 @@
 <head>
     <meta charset="utf-8">
     <title>D3: Empty page template</title>
+    <!--<script src="https://d3js.org/d3.v3.js"></script>-->
     <script src="https://d3js.org/d3.v4.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src='./js/PeopleChart.js'></script>
 
 
-    <script type='text/javascript'>
+    <!--<script type='text/javascript'>
         $(function () {
             d3.csv('./data/globalterrorismdb_0616dist.csv', function (data) {
 
-                var nest = d3.nest()
-                    .key(function (d) {
-                        return d.country_txt;
-                    })
+                // var nest = d3.nest()
+                //     .key(function (d) {
+                //         return d.country_txt;
+                //     })
                 
-                var nestedData = nest.entries(data)
-                var pChart = PeopleChart()
-                // console.log(nestedData)
-                // var x = [];
-                // x.push(nestedData);
+                // var nestedData = nest.entries(data)
+                // var pChart = PeopleChart()
+                // // console.log(nestedData)
+                // // var x = [];
+                // // x.push(nestedData);
 
-                var charts = d3.select('#vis')
-                    .datum(data)
+                // var charts = d3.select('#vis')
+                //     .datum(data)
 
-                charts.enter().append("div")
-                    .attr('class', 'chart')
-                    .merge(charts)
-                    .call(pChart);
+                // charts.enter().append("div")
+                //     .attr('class', 'chart')
+                //     .merge(charts)
+                //     .call(pChart);
 
-                charts.exit().remove();
+                // charts.exit().remove();
 
 
                 // var chartWrapper = d3.select('#vis')
@@ -57,7 +51,7 @@
                 //     .call(chart); // call the chart function!
             });
         });
-    </script>
+    </script>-->
 </head>
 
 <body>
