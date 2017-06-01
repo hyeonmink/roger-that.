@@ -110,11 +110,15 @@
             votes.enter().append('circle')
                 .attr('class','vote')
                 .attr('r',radius)
-                // .attr('cx', 10)
-                // .attr('cy', 10)
-                // .transition()
-                // .duration(1500)
-                // .delay(4000)
+                .attr('cx', 10)
+                .attr('cy', 10)
+                .transition()
+                .duration(function(d, i) { 
+                    return i*1.5;
+                })
+                .delay(function(d, i) {
+                    return i*20;
+                })
                 .attr('cx',function(d){ return ((d[time].label!=null)?(xScale(d[time].label)+xLocalScale(d[time].idx%barWidth)+radius+mar):(dim.graphWidth/2)); })
                 .attr('cy',function(d){return ((d[time].label!=null)?(yScale(Math.floor((d[time].idx+0.1)/barWidth))-radius-mar):0);})
                 .style('opacity',function(d){return (d[time].label!=null)?0.8:0.0;})
