@@ -62,8 +62,20 @@ form {
 }
 
 #map {
-    height: 70vh;
+    height: 60vh;
     width: auto;
+}
+
+.slider.slider-horizontal {
+  width: 70%;
+}
+
+.slider-selection {
+  background: lightsteelblue;
+}
+
+#glance {
+  text-align: center;
 }
 
 .imgDiv {

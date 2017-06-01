@@ -10,7 +10,6 @@ var googleMap = function(){
     let mapTypeName = defaultMapType;
 
     var map = (selection)=>{
-        console.log("hey")
         let coords = {}
         function renderBtn(low, high){
             var ul = document.getElementById('radioBtns');
@@ -131,6 +130,5 @@ var googleMap = function(){
         mapTypeName = value;
         return map;
     }
-    console.log("??????")
      return map
 }
