@@ -110,11 +110,15 @@
             votes.enter().append('circle')
                 .attr('class','vote')
                 .attr('r',radius)
-                .attr('cx', 10)
-                .attr('cy', 10)
+                .attr('cx', function(d, i) {
+                    return i/2
+                })
+                .attr('cy', function(d, i) {
+                    return -i
+                })
                 .transition()
                 .duration(function(d, i) { 
-                    return i*1.5;
+                    return i*1.01;
                 })
                 .delay(function(d, i) {
                     return i*20;
