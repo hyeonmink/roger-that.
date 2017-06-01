@@ -1,20 +1,4 @@
-$(function() {
 
-    
-    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
-        var pie = PieChart()
-        var myPieChart = d3.select('#attackTypesVis')
-                            .datum(data)
-
-
-
-        myPieChart.enter().append('div')
-                    .attr('class', 'myPieChart')
-                    .merge(myPieChart)
-                    .call(pie);
-
-        myPieChart.exit().remove();
-    });
 
 var PieChart = function() {
 
@@ -106,5 +90,3 @@ var PieChart = function() {
 
     return chart;
 }
-
-});

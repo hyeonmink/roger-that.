@@ -126,4 +126,30 @@ $(function() {
     scroll.on('active', function(index) {
         update(index);
     })
+
+    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
+        var bar = BarChart()
+        var peopleChart = d3.select('#livesLostVis')
+            .datum(data)
+
+        peopleChart.enter().append('div')
+            .attr('class', 'peopleChart')
+            .merge(peopleChart)
+            .call(bar);
+        
+        peopleChart.exit().remove();
+
+        var pie = PieChart()
+        var myPieChart = d3.select('#attackTypesVis')
+                            .datum(data)
+
+
+
+        myPieChart.enter().append('div')
+                    .attr('class', 'myPieChart')
+                    .merge(myPieChart)
+                    .call(pie);
+
+        myPieChart.exit().remove();
+    });
 });
