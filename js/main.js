@@ -18,10 +18,7 @@ var treeData = {
         "children": [{
             "name": "Lives Lost",
             "children": [{
-                "name": "Highest Ransom",
-                "children": [{
                     "name": "Attack Types"
-                }]
             }]
         }]
     }]
@@ -59,17 +56,11 @@ $(function() {
             fillColor = 'green';
             resetTree();
             $("#circle4").css("fill", "#fff");
-        } else if (index == 4) {
-            fillColor = 'green';
-            resetTree();
-            $("#circle5").css("fill", "#fff");
         } else {
             fillColor = 'black';
             nodeFill = '#fff';
             resetTree();
         }
-        // myChart.fillColor(fillColor);
-        // chart.datum(data).call(myChart);
     }
 
     var resetTree = function() {
@@ -105,14 +96,8 @@ $(function() {
 
     $("#circle4").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("ransom")
-        update(3);
-    });
-
-    $("#circle5").on('click', function(e) {
-        e.preventDefault();
         goToByScroll("types")
-        update(4);
+        update(3);
     });
 
     // Define a new scroller, and use the `.container` method to specify the desired container
