@@ -22,7 +22,7 @@ var treeData = {
                 "children": [{
                     "name": "Cause and Frequency of Attacks",
                     "children": [{
-                        "name": "TBD"
+                        "name": "Attack Types"
                     }]
                 }]
             }]
@@ -48,28 +48,28 @@ $(function() {
         if (index == 0) {
             fillColor = 'blue';
             resetTree();
-            $("#circle1").css("fill", "lightsteelblue");
+            $("#circle1").css("fill", "#fff");
         } else if (index == 1) {
             fillColor = 'red';
             nodeFill = 'red';
             resetTree();
-            $("#circle2").css("fill", "lightsteelblue");
+            $("#circle2").css("fill", "#fff");
         } else if (index == 2) {
             fillColor = 'orange';
             resetTree();
-            $("#circle3").css("fill", "lightsteelblue");
+            $("#circle3").css("fill", "#fff");
         } else if (index == 3) {
             fillColor = 'green';
             resetTree();
-            $("#circle4").css("fill", "lightsteelblue");
+            $("#circle4").css("fill", "#fff");
         } else if (index == 4) {
             fillColor = 'green';
             resetTree();
-            $("#circle5").css("fill", "lightsteelblue");
+            $("#circle5").css("fill", "#fff");
         } else if (index == 5) {
             fillColor = 'green';
             resetTree();
-            $("#circle6").css("fill", "lightsteelblue");
+            $("#circle6").css("fill", "#fff");
         } else {
             fillColor = 'black';
             nodeFill = '#fff';
@@ -82,13 +82,13 @@ $(function() {
     var resetTree = function() {
         for (var i = 1; i <= 6; i++) {
             var circleID = "#circle"+i;
-            $(circleID).css("fill", "#fff");
+            $(circleID).css("fill", "grey");
         }
     }
 
     function goToByScroll(id){
         $('html,body').animate({
-            scrollTop: $("#"+id).offset().top},
+            scrollTop: $("#"+id).offset().top - 38},
             'slow');
     }
 
@@ -124,7 +124,7 @@ $(function() {
 
     $("#circle6").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("claims")
+        goToByScroll("types")
         update(5);
     });
 

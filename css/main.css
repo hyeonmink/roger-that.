@@ -1,3 +1,8 @@
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
 p {
   opacity:.7
 }
@@ -36,8 +41,8 @@ form {
 }
 
 .node circle {
-  fill: #fff;
-  stroke: steelblue;
+  fill: grey;
+  stroke: black;
   stroke-width: 3px;
 }
 
@@ -69,7 +74,7 @@ form {
 }
 
 #landing-title {
-  background: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .4);
   color: black;
   padding: 30px;
   border-radius: 15px;
