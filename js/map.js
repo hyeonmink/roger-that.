@@ -1,35 +1,42 @@
-var locations = []
-var year = 1970;
-var markers
+//initialize the map
+let year = 1970;
+let array = []
 function initMap() {
+    function draw(year){
+        d3.csv("./data/globalterrorismdb_0616dist.csv", (data) => {
+            let min = +d3.min(data, function(d) { return d.iyear; })
+            let max = +d3.max(data, function(d) { return d.iyear; })
+            renderBtn(min, max)
 
-    d3.csv("./data/globalterrorismdb_0616dist.csv", (data) => {
-        var filteredData = data.filter((d,i)=>{
-            if (d.iyear == year){
-                return d;
-            }
+            var map = googleMap().year(year)
+                                .mapType('terrain')
+
+            var drawMap = d3.select('#map').append("div")
+                            .attr('id', 'googleMap')
+                            .datum(data)
+
+            drawMap.enter()
+                .merge(drawMap)
+                .call(map)
         });
-        for (var i = 0; i < filteredData.length; i++) {
-            locations.push({
-                lat: Math.round(+filteredData[i].latitude * 1000000) / 1000000,
-                lng: Math.round(+filteredData[i].longitude * 1000000) / 1000000
-            });
+    }
+
+    function renderBtn(low, high){
+        var ul = document.getElementById('radioBtns');
+        ul.innerHTML = '';
+        var li = document.createElement('li');//li
+
+        for(var i = low; i <= high; i++){
+            var checkbox = document.createElement('input');
+                checkbox.type = "checkbox";
+                checkbox.value = i;
+
+            li.appendChild(checkbox)
+            li.appendChild(document.createTextNode(i));
+            ul.appendChild(li);
         }
+        
+    }
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: locations[0]
-        });
-
-        markers = locations.map((location)=>{
-            return new google.maps.Marker({
-                position: location,
-                map: map
-            })
-        })
-
-        var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
-    });
+    draw(year);
 }
