@@ -1,17 +1,22 @@
 const defaultYear = [2015];
 const defaultMapType = 'terrain'
-const mapRadius = 3;
+const mapRadius = .0002;
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 var googleMap = function(){
     let years = defaultYear;
     let mapTypeName = defaultMapType;
-    let coords = {}
     var map = (selection)=>{
+        let coords = {}
+
         selection.each((data)=>{
             let filteredData = data.filter((d)=>{
-                if (years.indexOf(+d.iyear) != -1){
+                if ((years.indexOf(+d.iyear) != -1)){
                     return d;
                 }
             })
+
+            //initialize the map
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 2,
                 center: {lat:0,lng:0},
@@ -19,37 +24,46 @@ var googleMap = function(){
             });
 
             var markers = filteredData.map((data)=>{
-                var coord = {                        
-                        lat: +data.latitude,
-                        lng: +data.longitude
-                }
-                if(!coords[+coord.lat]){
-                    coords[+coord.lat] = [+coord.lng]
-                }
-                console.log(coords[+coord.lat].indexOf(+coord.lng))
-                while(coords[+coord.lat].indexOf(+coord.lng) != -1){
-                    console.log("?")
-                    var angle = Math.random()*Math.PI*2;
-                    coord = {
-                        lat: +data.latitude + Math.cos(angle)*mapRadius,
-                        lng: +data.longitude + Math.sin(angle)*mapRadius
+                
+                //get coordinate and locate the marker
+                //if location overlaps, use offset location
+                let lati = +data.latitude;
+                let longi = +data.longitude;
+                if(!coords[lati]){
+                    coords[lati] = [longi]
+                } else {
+                    while(coords[lati].indexOf(longi) != -1){
+                        var angle = Math.random()*Math.PI*2;                       
+                        lati= +data.latitude + Math.round(100000*(Math.cos(angle)*mapRadius))/100000;
+                        longi= +data.longitude + Math.round(100000*(Math.sin(angle)*mapRadius))/100000;
+                        if(!coords[lati]){
+                            coords[lati] = [longi]
+                            break;
+                        } else {
+                            if(coords[lati].indexOf(longi) == -1){
+                                coords[lati].push(longi)
+                                break;
+                            }
+                        }
                     }
-                    if(!coords[+coord.lat]){
-                        coords[+coord.lat] = [+coord.lng]
-                    }                    
-                }           
+                }
+
+                let coord = {                        
+                        lat: lati,
+                        lng: longi
+                }      
                        
                 var marker = new google.maps.Marker({
                     position: coord,
                     map: map,
                     title: data.country_txt
                 })
-                let year = (data.iyear != 0 ? data.iyear : "unknown")
-                let month = (data.imonth != 0 ? data.imonth : "unknown")
-                let day = (data.iday != 0 ? data.iday : "unknown")
+                let month = (data.imonth != 0 ? months[data.imonth-1]+" " : "")
+                let day = (data.iday != 0 ? (data.iday+", ") : "")
+                let year = (data.iyear != 0 ? data.iyear : "")
                 let location = (data.city == 'unknown' ? data.provstate : data.city)
                 var infowindow = new google.maps.InfoWindow({
-                    content: `<h2>${year}/${month}/${day}</h2><p>${location}, ${data.country_txt} (${data.region_txt})</p><p>${data.summary}</p>`
+                    content: `<h2>${month}${day}${year}</h2><p>${location}, ${data.country_txt} (${data.region_txt})</p><p>${data.summary}</p>`
                 });
 
                 marker.addListener('click', function(){
@@ -58,7 +72,6 @@ var googleMap = function(){
                 
                 return marker;  
             });
-            console.log(coords)
             var markerCluster = new MarkerClusterer(map, markers,
                 {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
             );
