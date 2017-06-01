@@ -14,7 +14,25 @@ function PeopleChart() {
 
     var chart = function (selection) {
         selection.each(function (data) {
-            console.log(data)
+
+            var prepData = d3.nest()
+                                .key(function(d) {
+                                    //console.log((d.iyear).substring(0, 3))
+                                    return (d.iyear).substring(0, 3);
+                                })
+                                .rollup(function(d) {
+                                    return d3.sum(d, function(v) { return v.nkill; })
+                                })
+                                .entries(data);
+
+            console.log(prepData);
+
+
+
+
+
+
+
             var categories = []; //List of all the catories - in this case country names
             data.forEach(function (x) {
                 if (!categories.includes(x.natlty1_txt)) { //assumes category is country name so natlty1_txt
