@@ -131,7 +131,7 @@ h1 {
   pointer-events: none;
 }
 
-h3 {
+h3, h4 {
   /*font: 400 120px/500px "Helvetica Neue";*/
   text-align: center;
   width: 100vw;
@@ -145,5 +145,10 @@ h3 {
   width: 100vw;
   padding-top: 40vh;
   /*padding-top: 50px;*/
+  text-align: center;
+}
+
+#livesLostVis, #attackTypesVis {
+  padding-top: 20vh;
   text-align: center;
 }

@@ -9,7 +9,8 @@ var data = [{
 
 var fillColor,
     nodeFill,
-    drawBarDots;
+    drawBarDots,
+    drawTypesChart;
 
 
 var treeData = {
@@ -19,9 +20,12 @@ var treeData = {
         "children": [{
             "name": "Lives Lost",
             "children": [{
-                "name": "Attack Types",
+                "name": "How?",
                 "children": [{
-                    "name": "Incidents"
+                    "name": "Attack Types",
+                    "children": [{
+                        "name": "Incidents"
+                    }]
                 }]
             }]
         }]
@@ -49,6 +53,9 @@ $(function() {
         } else if (index == 4) {
             resetTree();
             $("#circle5").css("fill", "rgb(128, 128, 128)");
+        } else if (index == 5) {
+            resetTree();
+            $("#circle6").css("fill", "rgb(128, 128, 128)");
         } else {
             nodeFill = 'rgb(128, 128, 128)';
             resetTree();
@@ -92,14 +99,22 @@ $(function() {
 
     $("#circle4").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("types");
+        goToByScroll("toTypes");
+        introTypes();
         update(3);
     });
 
     $("#circle5").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("glance")
+        goToByScroll("types");
+        drawTypesChart();
         update(4);
+    });
+
+    $("#circle6").on('click', function(e) {
+        e.preventDefault();
+        goToByScroll("glance")
+        update(5);
     });
 
     // Define a new scroller, and use the `.container` method to specify the desired container
@@ -114,7 +129,7 @@ $(function() {
         update(index);
     })
 
-
+    var typesText = ["Now you may be wondering which types of attacks have taken the most lives..."]
 
     var texts = ["1 person is like you and me; and like the population of Bulford, Wyoming",
         "3 people is the average family size in the US",
@@ -141,7 +156,8 @@ $(function() {
     ]
 
     var textToDisplay,
-        imgToDisplay;
+        imgToDisplay,
+        typeTextToDisplay;
 
     var writeStory = function() {
         d3.select("#storyDisplay").text("")
@@ -206,6 +222,39 @@ $(function() {
             });
     }
 
+    var introTypes = function() {
+        d3.select("#typeStoryDisplay").text("hihi")
+        // goToByScroll("types");
+        // drawTypesChart();
+        // update(4);
+        // d3.select("#typeStoryDisplay").text("")
+        // var counter = 0;
+
+        // d3.select("h4")
+        //     .transition()
+        //     .duration(2500)
+        //     .on("start", function repeat() {
+        //         if (typesText.length - 1 < counter) {
+        //             drawTypesChart();
+        //             update(4)
+        //         }
+        //         typeTextToDisplay = typesText[counter++];
+        //         var t = d3.active(this)
+        //             .style("opacity", 0)
+        //             .remove();
+
+        //         d3.select("#typeStoryDisplay").append("h4")
+        //             .attr('id', "storyh4")
+        //             .style("opacity", 0)
+        //             .text(typeTextToDisplay)
+        //             .transition(t)
+        //             .style("opacity", 1)
+        //             .transition()
+        //             .delay(3500)
+        //             .on("start", repeat);
+        //     });
+    }
+
 });
 
 function run() {
@@ -227,18 +276,22 @@ function run() {
             peopleChart.exit().remove();
         }
 
-        var pie = PieChart()
-        var myPieChart = d3.select('#attackTypesVis')
-            .datum(data)
+        drawTypesChart = function() {
+            d3.select("#attackTypesVis").remove();
+            d3.select("#types").append("div")
+                .attr("id", "attackTypesVis")
 
+            var pie = PieChart()
+            var myPieChart = d3.select('#attackTypesVis')
+                .datum(data)
 
+            myPieChart.enter().append('div')
+                .attr('class', 'myPieChart')
+                .merge(myPieChart)
+                .call(pie);
 
-        myPieChart.enter().append('div')
-            .attr('class', 'myPieChart')
-            .merge(myPieChart)
-            .call(pie);
-
-        myPieChart.exit().remove();
+            myPieChart.exit().remove();
+        }
 
         var map = googleMap().years(defaultSelectedYear)
             .mapType('terrain')
