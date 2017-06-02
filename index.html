@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/css/bootstrap-slider.css" rel="stylesheet" type="text/css"></link>
 
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/scroll.css" />
@@ -50,11 +52,14 @@
 
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp While there are countless data visualizations involving terrorism and its related tragedies, the unfortunate truth is that many of these visualizations do not give the emotional information the depth it deserves. The existing visualizations are informational in their own ways; however, they typically allow the creator and the user to distance themselves from the stories underneath the data. <b>A simple color encoding does not express the calamity of loss of life.</b><br><br>
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Our goal is to visualize terrorism data provided publicly from the Global Terrorism Database (GTD) while emphasizing the emotional aspect of the data.</div>
-                            <!--Rather than using the word ‘terrorist,’ which tends to be socially charged, we will used the word ‘assailant.’-->
                     </section>
                     <section class="step" id="glance">
                         <div class="title">At a Glance</div>
                         <div id="mapBox" class="container"></div>
+                    </section>
+                    <section class="step" id="story">
+                        <div id="storyDisplay"><h3 id="storyh3"></h3></div>
+                        <div id="storyImg"><img id="storyimgsrc" src="" /></div>
                     </section>
                     <section class="step" id="incidents">
                         <div class="title">Individual Lives Lost</div>
