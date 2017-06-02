@@ -62,8 +62,6 @@
                 
             });
 
-            console.log(years2)
-            console.log(deaths);
 
 
             var parties = years2;
