@@ -49,7 +49,6 @@ var googleMap = function() {
                 }
                 mapMap[data[i].iyear].push(data[i])
             }
-            console.log(mapMap)
 
             let min = +d3.min(data, function(d) {
                 return d.iyear;
@@ -131,7 +130,6 @@ var googleMap = function() {
 
                 document.getElementById("mapBtn").addEventListener('click', () => {
                     selectedYear = +document.getElementById('slider').value
-                    console.log(mapMap[selectedYear].length)
                     draw()
                 })
             }

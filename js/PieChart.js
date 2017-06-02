@@ -1,7 +1,4 @@
-
-
 var PieChart = function() {
-
     var margin = {
         top: 100,
         right: 10,
@@ -14,36 +11,38 @@ var PieChart = function() {
     var drawWidth = width - margin.left - margin.right;
     var drawHeight = height - margin.top - margin.bottom;
     var radius = Math.min(width, height) / 2;
-    var donutwidth = radius /2; 
+    var donutwidth = radius / 2;
 
     var color = d3.scaleOrdinal()
-            .range(d3.schemeGreys[9]);
+        .range(d3.schemeGreys[9]);
 
     var chart = function(selection) {
 
         var svg = d3.select("#attackTypesVis")
-                .append('svg')
-                .attr('width', width)
-                .attr('height', height);
-    
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
         g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
         var pie = d3.pie()
             .sort(function(a, b) {
                 return a.value - b.value;
             })
-            .value(function(d) { return d.value; });
+            .value(function(d) {
+                return d.value;
+            });
 
-        var tooltip = d3.select('#attackTypesVis')                               
-            .append('div')                                                
+        var tooltip = d3.select('#attackTypesVis')
+            .append('div')
             .attr('class', 'toooltip')
             .style('width', donutwidth + "px")
             .style('left', (drawWidth / 2) - 35 + "px")
-            .style('top', (drawHeight / 2) + "px");   
-                        
+            .style('top', (drawHeight / 2) + "px");
+
         tooltip.append('p')
             .attr('class', 'type');
-                
+
         tooltip.append('p')
             .attr('class', 'deathcount');
 
@@ -58,11 +57,15 @@ var PieChart = function() {
 
         selection.each(function(data) {
             var prepData = d3.nest()
-                        .key(function(d) { return d.attacktype1_txt; })
-                        .rollup(function(d) {
-                        return count = d3.sum(d, function(v) { return v.nkill; })
-                        })
-                        .entries(data);
+                .key(function(d) {
+                    return d.attacktype1_txt;
+                })
+                .rollup(function(d) {
+                    return count = d3.sum(d, function(v) {
+                        return v.nkill;
+                    })
+                })
+                .entries(data);
 
             color.domain([0, data.length]);
 
@@ -70,15 +73,17 @@ var PieChart = function() {
                 .data(pie(prepData))
                 .enter().append("g")
                 .attr("class", "arc")
-                
+
             arc.append("path")
                 .attr('class', 'paths')
                 .attr("d", path)
-                .attr("fill", function(d, idx) { return color(idx+4); })
+                .attr("fill", function(d, idx) {
+                    return color(idx + 4);
+                })
 
-                svg.selectAll('path').on('mouseover', function(d) {
-                    tooltip.select('.type').html('<p>From<br /><strong>' + d.data.key + '</strong> type of attacks,</p>'); 
-                    tooltip.select('.deathcount').html('<p><strong>' + Math.round(d.data.value) + '</strong> people died. </p>'); 
+            svg.selectAll('path').on('mouseover', function(d) {
+                    tooltip.select('.type').html('<p>From<br /><strong>' + d.data.key + '</strong> type of attacks,</p>');
+                    tooltip.select('.deathcount').html('<p><strong>' + Math.round(d.data.value) + '</strong> people died. </p>');
                     tooltip.style('display', 'block');
                     svg.selectAll('path').attr('opacity', 0.3);
                     event.srcElement.attributes.opacity.value = 1;

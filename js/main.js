@@ -14,14 +14,14 @@ var fillColor,
 
 var treeData = {
     "name": "Title Page",
-    "children": [{ 
+    "children": [{
         "name": "At a Glance",
         "children": [{
             "name": "People",
             "children": [{
                 "name": "Lives Lost",
                 "children": [{
-                        "name": "Attack Types"
+                    "name": "Attack Types"
                 }]
             }]
         }]
@@ -29,7 +29,6 @@ var treeData = {
 };
 
 $(function() {
-    $("#ex2").slider({});
     // // Instantiate your chart with given settings
     // var myChart = BarChart().xVar('name')
     //     .yVar('value')
@@ -43,7 +42,7 @@ $(function() {
     var leTree = d3.select('#nav-bar').datum(treeData).call(myTree);
 
 
-    var update = function(index){
+    var update = function(index) {
         if (index == 0) {
             fillColor = 'blue';
             resetTree();
@@ -74,14 +73,15 @@ $(function() {
 
     var resetTree = function() {
         for (var i = 1; i <= 6; i++) {
-            var circleID = "#circle"+i;
+            var circleID = "#circle" + i;
             $(circleID).css("fill", "grey");
         }
     }
 
-    function goToByScroll(id){
+    function goToByScroll(id) {
         $('html,body').animate({
-            scrollTop: $("#"+id).offset().top - 38},
+                scrollTop: $("#" + id).offset().top - 38
+            },
             'slow');
     }
 
@@ -130,59 +130,31 @@ $(function() {
         update(index);
     })
 
-    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
-        drawBarDots = function() {
-            d3.select("#livesLostVis").remove();
-            d3.select("#incidents").append("div")
-                    .attr("id", "livesLostVis")
 
-            var bar = BarChart()
-            var peopleChart = d3.select('#livesLostVis')
-                .datum(data)
-
-            peopleChart.enter().append('div')
-                .attr('class', 'peopleChart')
-                .merge(peopleChart)
-                .call(bar);
-            
-            peopleChart.exit().remove();
-        }
-
-        var pie = PieChart()
-        var myPieChart = d3.select('#attackTypesVis')
-                            .datum(data)
-
-
-
-        myPieChart.enter().append('div')
-                    .attr('class', 'myPieChart')
-                    .merge(myPieChart)
-                    .call(pie);
-
-        myPieChart.exit().remove();
-    });
 
     var texts = ["1 person is like you and me; and like the population of Bulford, Wyoming",
-                "3 people is the average family size in the US",
-                "5 people is enough to fill a car",
-                "In a group of 20 people, 2 people are likely to have the same birthday",
-                "50 people is enough to populate the earth and maintain genetic diversity",
-                "100 people is the number of senators in the US",
-                "each dot here represents 100 people",
-                "200 people are the number of people in the most recent Informatics cohort",
-                "700 people are enough to fill the largest classroom at UW",
-                "If people were words, then 1000 people would make up a picture"];
-    
+        "3 people is the average family size in the US",
+        "5 people is enough to fill a car",
+        "In a group of 20 people, 2 people are likely to have the same birthday",
+        "50 people is enough to populate the earth and maintain genetic diversity",
+        "100 people is the number of senators in the US",
+        "each dot here represents 100 people",
+        "200 people are the number of people in the most recent Informatics cohort",
+        "700 people are enough to fill the largest classroom at UW",
+        "If people were words, then 1000 people would make up a picture"
+    ];
+
     var storyImages = ["person.png",
-                       "family.png",
-                       "car.png",
-                       "bday.png",
-                       "world.png",
-                       "senator.png",
-                       "dot.png",
-                       "dot2.png",
-                       "dot7.png",
-                       "dot10.png"]
+        "family.png",
+        "car.png",
+        "bday.png",
+        "world.png",
+        "senator.png",
+        "dot.png",
+        "dot2.png",
+        "dot7.png",
+        "dot10.png"
+    ]
 
     var textToDisplay,
         imgToDisplay;
@@ -211,7 +183,7 @@ $(function() {
                     .transition()
                     .delay(3500)
                     .on("start", repeat);
-        });
+            });
     }
 
     var drawStory = function() {
@@ -221,7 +193,7 @@ $(function() {
             .transition()
             .duration(2500)
             .on("start", function repeat() {
-                if (storyImages.length-1 < counter) {
+                if (storyImages.length - 1 < counter) {
                     counter = 0;
                     goToByScroll("incidents");
                     drawBarDots();
@@ -231,7 +203,7 @@ $(function() {
                 var t = d3.active(this)
                     .style("opacity", 0)
                     .remove();
-                
+
                 d3.select("#storyImg").remove();
                 d3.select("#story").append("div")
                     .attr("id", "storyImg")
@@ -239,13 +211,59 @@ $(function() {
                 d3.select("#storyImg").append("img")
                     .style('width', '100px')
                     .style("opacity", 0)
-                    .attr("src", "../img/"+imgToDisplay)
+                    .attr("src", "../img/" + imgToDisplay)
                     .transition(t)
                     .style("opacity", 1)
                     .transition()
                     .delay(3500)
                     .on("start", repeat);
-        });
+            });
     }
 
 });
+
+function run() {
+    d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
+        drawBarDots = function() {
+            d3.select("#livesLostVis").remove();
+            d3.select("#incidents").append("div")
+                .attr("id", "livesLostVis")
+
+            var bar = BarChart()
+            var peopleChart = d3.select('#livesLostVis')
+                .datum(data)
+
+            peopleChart.enter().append('div')
+                .attr('class', 'peopleChart')
+                .merge(peopleChart)
+                .call(bar);
+
+            peopleChart.exit().remove();
+        }
+
+        var pie = PieChart()
+        var myPieChart = d3.select('#attackTypesVis')
+            .datum(data)
+
+
+
+        myPieChart.enter().append('div')
+            .attr('class', 'myPieChart')
+            .merge(myPieChart)
+            .call(pie);
+
+        myPieChart.exit().remove();
+
+        var map = googleMap().years(defaultSelectedYear)
+            .mapType('terrain')
+
+        var drawMap = d3.select('#mapBox')
+            .attr('id', 'googleMap')
+            .datum(data)
+
+        drawMap.enter()
+            .merge(drawMap)
+            .call(map)
+
+    });
+}
