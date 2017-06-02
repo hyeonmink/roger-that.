@@ -22,7 +22,10 @@
             var xScale = d3.scaleBand().range([0,dim.graphWidth],0.05);
             var xLocalScale = d3.scaleBand();
             var yScale = d3.scaleBand().range([dim.graphHeight, 0]);
-            var colorScale = d3.scaleOrdinal(d3.schemeCategory20b);
+            var colorScale = d3.scaleOrdinal(d3.schemeGreys[8]);
+
+            // var color = d3.scaleOrdinal()
+            // .range(d3.schemeGreys[6]);
 
             var xAxis = d3.axisBottom().scale(xScale);
             var yAxis = d3.axisLeft().scale(yScale);
@@ -127,9 +130,7 @@
                         .style("opacity", .9);
                     tip.html("There were <b>" + noOfDeaths + "</b> deaths in the " + thisYr)
                         .style("left", "32%")
-                        .style("top", "43%")
-                        // .style("left", (d3.event.pageX - 28) + "px")
-                        // .style("top", (d3.event.pageY - 28) + "px");
+                        .style("top", "43%");
                 })
                 .on("mouseout", function(d) {
                     tip.transition()
@@ -148,14 +149,9 @@
                 })
                 .attr('cx',function(d){ return ((d[time].label!=null)?(xScale(d[time].label)+xLocalScale(d[time].idx%barWidth)+radius+mar):(dim.graphWidth/2)); })
                 .attr('cy',function(d){
-                    // currentYr = d[0].yr;
-                    // console.log('1')
-                    // if (currentYr != prevYr)
-                    //     console.log("new one")
-                    // prevYr = currentYr;
                     return ((d[time].label!=null)?(yScale(Math.floor((d[time].idx+0.1)/barWidth))-radius-mar):0);})
                 .style('opacity',function(d){return (d[time].label!=null)?0.8:0.0;})
-                .style('fill',function(d){return colorScale(d[time].label);});
+                .style('fill',function(d){return colorScale(d[time].label+3);});
 
             votes.exit().remove();
                         console.log(ypos)

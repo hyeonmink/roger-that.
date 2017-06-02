@@ -1,6 +1,6 @@
 body {
   height: 100vh;
-  /*overflow: hidden;*/
+  overflow: hidden;
 }
 
 p {
@@ -137,4 +137,9 @@ h3 {
   height: 520px;
   margin: 0;
   position: absolute;
+}
+
+#storyImg {
+  padding-top: 50px;
+  text-align: center;
 }

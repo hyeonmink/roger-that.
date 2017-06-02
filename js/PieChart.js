@@ -16,7 +16,8 @@ var PieChart = function() {
     var radius = Math.min(width, height) / 2;
     var donutwidth = radius /2; 
 
-    var color = d3.scaleOrdinal(d3.schemeCategory20b);
+    var color = d3.scaleOrdinal()
+            .range(d3.schemeGreys[9]);
 
     var chart = function(selection) {
 
@@ -63,6 +64,8 @@ var PieChart = function() {
                         })
                         .entries(data);
 
+            color.domain([0, data.length]);
+
             var arc = g.selectAll(".arc")
                 .data(pie(prepData))
                 .enter().append("g")
@@ -71,7 +74,7 @@ var PieChart = function() {
             arc.append("path")
                 .attr('class', 'paths')
                 .attr("d", path)
-                .attr("fill", function(d) { return color(d.data.key); })
+                .attr("fill", function(d, idx) { return color(idx+4); })
 
                 svg.selectAll('path').on('mouseover', function(d) {
                     tooltip.select('.type').html('<p>From<br /><strong>' + d.data.key + '</strong> type of attacks,</p>'); 

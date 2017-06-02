@@ -101,6 +101,7 @@ $(function() {
         e.preventDefault();
         goToByScroll("story");
         writeStory();
+        drawStory();
         update(2);
     });
 
@@ -131,6 +132,10 @@ $(function() {
 
     d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
         drawBarDots = function() {
+            d3.select("#livesLostVis").remove();
+            d3.select("#incidents").append("div")
+                    .attr("id", "livesLostVis")
+
             var bar = BarChart()
             var peopleChart = d3.select('#livesLostVis')
                 .datum(data)
@@ -163,13 +168,26 @@ $(function() {
                 "In a group of 20 people, 2 people are likely to have the same birthday",
                 "50 people is enough to populate the earth and maintain genetic diversity",
                 "100 people is the number of senators in the US",
+                "each dot here represents 100 people",
                 "200 people are the number of people in the most recent Informatics cohort",
                 "700 people are enough to fill the largest classroom at UW",
                 "If people were words, then 1000 people would make up a picture"];
-    var textToDisplay;
+    
+    var storyImages = ["person.png",
+                       "family.png",
+                       "car.png",
+                       "bday.png",
+                       "world.png",
+                       "senator.png",
+                       "dot.png",
+                       "dot2.png",
+                       "dot7.png",
+                       "dot10.png"]
+
+    var textToDisplay,
+        imgToDisplay;
 
     var writeStory = function() {
-        console.log('hi')
         d3.select("#storyDisplay").text("")
         var counter = 0;
 
@@ -185,8 +203,43 @@ $(function() {
                     .remove();
 
                 d3.select("#storyDisplay").append("h3")
+                    .attr('id', "storyh3")
                     .style("opacity", 0)
                     .text(textToDisplay)
+                    .transition(t)
+                    .style("opacity", 1)
+                    .transition()
+                    .delay(3500)
+                    .on("start", repeat);
+        });
+    }
+
+    var drawStory = function() {
+        var counter = 0;
+
+        d3.select("#storyimgsrc")
+            .transition()
+            .duration(2500)
+            .on("start", function repeat() {
+                if (storyImages.length-1 < counter) {
+                    counter = 0;
+                    goToByScroll("incidents");
+                    drawBarDots();
+                    update(3);
+                }
+                imgToDisplay = storyImages[counter++];
+                var t = d3.active(this)
+                    .style("opacity", 0)
+                    .remove();
+                
+                d3.select("#storyImg").remove();
+                d3.select("#story").append("div")
+                    .attr("id", "storyImg")
+
+                d3.select("#storyImg").append("img")
+                    .style('width', '100px')
+                    .style("opacity", 0)
+                    .attr("src", "../img/"+imgToDisplay)
                     .transition(t)
                     .style("opacity", 1)
                     .transition()
