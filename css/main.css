@@ -1,6 +1,7 @@
 body {
   height: 100vh;
   overflow: hidden;
+  font-family: 'Averia Serif Libre', cursive;
   /*background-image: url('../img/candles.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -131,7 +132,7 @@ h1 {
   pointer-events: none;
 }
 
-h3, h4 {
+h3, #typeStoryDisplay {
   /*font: 400 120px/500px "Helvetica Neue";*/
   text-align: center;
   width: 100vw;
@@ -139,6 +140,11 @@ h3, h4 {
   margin: 0;
   position: absolute;
   padding-top: 30vh;
+}
+
+#typeStoryDisplay {
+  font-size: 25px;
+  font-weight: bold;
 }
 
 #storyImg {

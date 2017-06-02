@@ -129,8 +129,6 @@ $(function() {
         update(index);
     })
 
-    var typesText = ["Now you may be wondering which types of attacks have taken the most lives..."]
-
     var texts = ["1 person is like you and me; and like the population of Bulford, Wyoming",
         "3 people is the average family size in the US",
         "5 people is enough to fill a car",
@@ -156,8 +154,7 @@ $(function() {
     ]
 
     var textToDisplay,
-        imgToDisplay,
-        typeTextToDisplay;
+        imgToDisplay;
 
     var writeStory = function() {
         d3.select("#storyDisplay").text("")
@@ -195,7 +192,7 @@ $(function() {
             .on("start", function repeat() {
                 if (storyImages.length - 1 < counter) {
                     counter = 0;
-                    if ($('#circle3').css('fill') == 'rgb(128, 128, 128)') {
+                    if ($('#circle2').css('fill') == 'rgb(128, 128, 128)') {
                         goToByScroll("incidents");
                         drawBarDots();
                         update(2);
@@ -223,36 +220,24 @@ $(function() {
     }
 
     var introTypes = function() {
-        d3.select("#typeStoryDisplay").text("hihi")
-        // goToByScroll("types");
-        // drawTypesChart();
-        // update(4);
-        // d3.select("#typeStoryDisplay").text("")
-        // var counter = 0;
-
-        // d3.select("h4")
-        //     .transition()
-        //     .duration(2500)
-        //     .on("start", function repeat() {
-        //         if (typesText.length - 1 < counter) {
-        //             drawTypesChart();
-        //             update(4)
-        //         }
-        //         typeTextToDisplay = typesText[counter++];
-        //         var t = d3.active(this)
-        //             .style("opacity", 0)
-        //             .remove();
-
-        //         d3.select("#typeStoryDisplay").append("h4")
-        //             .attr('id', "storyh4")
-        //             .style("opacity", 0)
-        //             .text(typeTextToDisplay)
-        //             .transition(t)
-        //             .style("opacity", 1)
-        //             .transition()
-        //             .delay(3500)
-        //             .on("start", repeat);
-        //     });
+        var counter = 0;
+        d3.select("#typeStoryDisplay").text("Now you may be wondering which types of attacks have taken the most lives...")
+            .transition()
+            .duration(2500)
+            .on("start", function next() {
+                d3.select("#typeStoryDisplay").append("h4")
+                    .attr("id", "storyh4")
+                    .transition()
+                    .delay(3500)
+                    .on("start", next);
+                
+                if (counter == 1) {
+                    goToByScroll("types");
+                    drawTypesChart();
+                    update(4);
+                }
+                counter++;
+            })
     }
 
 });

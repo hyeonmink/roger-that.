@@ -192,7 +192,6 @@
                });
 
            votes.exit().remove();
-           console.log(ypos)
 
        }
        return chart;
