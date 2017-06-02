@@ -15,13 +15,13 @@ var fillColor,
 var treeData = {
     "name": "Title Page",
     "children": [{
-        "name": "At a Glance",
+        "name": "Introduction",
         "children": [{
-            "name": "People",
+            "name": "Lives Lost",
             "children": [{
-                "name": "Lives Lost",
+                "name": "Attack Types",
                 "children": [{
-                    "name": "Attack Types"
+                    "name": "Incidents"
                 }]
             }]
         }]
@@ -29,44 +29,28 @@ var treeData = {
 };
 
 $(function() {
-    // // Instantiate your chart with given settings
-    // var myChart = BarChart().xVar('name')
-    //     .yVar('value')
-    //     .xAxisLabel('Bar')
-    //     .yAxisLabel('Arbitrary Value');
-
-    // // Build chart
-    // var chart = d3.select('#vis').datum(data).call(myChart);
-
     var myTree = TreeMap()
     var leTree = d3.select('#nav-bar').datum(treeData).call(myTree);
 
 
     var update = function(index) {
         if (index == 0) {
-            fillColor = 'blue';
             resetTree();
-            $("#circle1").css("fill", "#fff");
+            $("#circle1").css("fill", "rgb(128, 128, 128)");
         } else if (index == 1) {
-            fillColor = 'red';
-            nodeFill = 'red';
             resetTree();
-            $("#circle2").css("fill", "#fff");
+            $("#circle2").css("fill", "rgb(128, 128, 128)");
         } else if (index == 2) {
-            fillColor = 'orange';
             resetTree();
-            $("#circle3").css("fill", "#fff");
+            $("#circle3").css("fill", "rgb(128, 128, 128)");
         } else if (index == 3) {
-            fillColor = 'green';
             resetTree();
-            $("#circle4").css("fill", "#fff");
+            $("#circle4").css("fill", "rgb(128, 128, 128)");
         } else if (index == 4) {
-            fillColor = 'green';
             resetTree();
-            $("#circle5").css("fill", "#fff");
+            $("#circle5").css("fill", "rgb(128, 128, 128)");
         } else {
-            fillColor = 'black';
-            nodeFill = '#fff';
+            nodeFill = 'rgb(128, 128, 128)';
             resetTree();
         }
     }
@@ -74,7 +58,7 @@ $(function() {
     var resetTree = function() {
         for (var i = 1; i <= 6; i++) {
             var circleID = "#circle" + i;
-            $(circleID).css("fill", "grey");
+            $(circleID).css("fill", "#fff");
         }
     }
 
@@ -93,28 +77,28 @@ $(function() {
 
     $("#circle2").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("glance");
+        goToByScroll("story");
+        writeStory();
+        drawStory();
         update(1);
     });
 
     $("#circle3").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("story");
-        writeStory();
-        drawStory();
+        goToByScroll("incidents");
+        drawBarDots();
         update(2);
     });
 
     $("#circle4").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("incidents");
-        drawBarDots();
+        goToByScroll("types");
         update(3);
     });
 
     $("#circle5").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("types")
+        goToByScroll("glance")
         update(4);
     });
 
@@ -167,7 +151,7 @@ $(function() {
             .transition()
             .duration(2500)
             .on("start", function repeat() {
-                if (texts.length < counter)
+                if (texts.length - 1 < counter)
                     counter = 0;
                 textToDisplay = texts[counter++];
                 var t = d3.active(this)
@@ -195,9 +179,11 @@ $(function() {
             .on("start", function repeat() {
                 if (storyImages.length - 1 < counter) {
                     counter = 0;
-                    goToByScroll("incidents");
-                    drawBarDots();
-                    update(3);
+                    if ($('#circle3').css('fill') == 'rgb(128, 128, 128)') {
+                        goToByScroll("incidents");
+                        drawBarDots();
+                        update(2);
+                    }
                 }
                 imgToDisplay = storyImages[counter++];
                 var t = d3.active(this)

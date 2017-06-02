@@ -1,6 +1,10 @@
 body {
   height: 100vh;
   overflow: hidden;
+  /*background-image: url('../img/candles.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100vw 100vh;*/
 }
 
 p {
@@ -70,10 +74,6 @@ form {
   width: 70%;
 }
 
-.slider-selection {
-  background: lightsteelblue;
-}
-
 #glance {
   text-align: center;
 }
@@ -93,13 +93,14 @@ form {
   border-radius: 15px;
   font-family: 'Averia Serif Libre', cursive;
   font-size: 18px;
-  top: 40vh;
-  left: 15vw;
+  /*top: 20vh;*/
+  /*left: 15vw;*/
   position: absolute;
 }
 
 h1 {
   font-family: 'Averia Serif Libre', cursive;
+  font-size: 80px;
   color: white;
 }
 
@@ -133,13 +134,16 @@ h1 {
 h3 {
   /*font: 400 120px/500px "Helvetica Neue";*/
   text-align: center;
-  width: 960px;
+  width: 100vw;
   height: 520px;
   margin: 0;
   position: absolute;
+  padding-top: 30vh;
 }
 
 #storyImg {
-  padding-top: 50px;
+  width: 100vw;
+  padding-top: 40vh;
+  /*padding-top: 50px;*/
   text-align: center;
 }

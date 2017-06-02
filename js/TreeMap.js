@@ -45,7 +45,7 @@ var TreeMap = function() {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function(d){ d.y = d.depth * 150});
+            nodes.forEach(function(d){ d.y = d.depth * 150 });
 
             // ****************** Nodes section ***************************
 
@@ -73,14 +73,6 @@ var TreeMap = function() {
                 .attr('r', 1e-6)
                 .attr('id', (d) => { return 'circle'+d.id })
                 .style("fill", nodeFill);   
-
-
-            // Add labels for the nodes
-            // nodeEnter.append('text')
-            //     .attr("dy", ".35em")
-            //     .attr("x", 13)
-            //     .attr("text-anchor", "start")
-            //     .text(function(d) { return d.data.name; });
 
             // Update
             var nodeUpdate = nodeEnter.merge(node);
