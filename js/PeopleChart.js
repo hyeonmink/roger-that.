@@ -1,11 +1,16 @@
    var BarChart = function() {
 
+        // var dim = {width: 560, height: 340};
         var dim = {width: 960, height: 500};
         var margin = {top: 10, bottom: 50, left: 50, right: 10};
         var inputHeight = 20;
         var numberFormat = d3.format('.0f');
         dim.graphWidth = dim.width - margin.left - margin.right;
         dim.graphHeight = dim.height - margin.top - margin.bottom;
+
+        var tip = d3.select("#livesLostVis").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         var chart = function(selection) {
             var svg = d3.select('#livesLostVis').append('svg')
@@ -43,6 +48,7 @@
 
             var years2 = [];
             var deaths = [];
+            var deathsDisplay = [];
 
             selection.each(function(data) {
                 var raw = d3.nest()
@@ -53,17 +59,13 @@
                         return d3.sum(d, function(v) { return Math.round(v.nkill); })
                     })
                     .entries(data);
-            
-                //raw.forEach(function(d) { d.key = (d.key).substring(2) + "0's" });
 
                 raw.forEach(function(d) { years2.push((d.key).substring(2) + "0's"); });
                 raw.forEach(function(d) { deaths.push(Math.round(d.value / 100)); });
+                raw.forEach(function(d) { deathsDisplay.push(d.value); });
 
                 
             });
-
-            console.log(years2)
-            console.log(deaths);
 
 
             var parties = years2;
@@ -73,7 +75,6 @@
             });
             var sums = {};
             var data = {};
-
             data[0] = deaths;
 
             var max = d3.max(deaths);
@@ -81,7 +82,7 @@
             barWidth = Math.ceil(max/nrow);
             yScale.domain(d3.range(nrow));
             yAxis.tickValues(d3.range(nrow).filter(function(d){return d%10===0;}));
-            yAxis.tickFormat(function(d){return (d*barWidth);});
+            yAxis.tickFormat(function(d){return (d*barWidth*100);});
             xScale.domain(parties.map(function(d,i){return i;}));
             xAxis.tickFormat(function(d){return parties[d];});
             xAxisObj.call(xAxis);
@@ -96,16 +97,18 @@
             var indexMargin = 0;
             parties.forEach(function(party,partyidx)
             {
-
                 for (var i=0;i<data[0][partyidx];++i)
                 {
-                displaydata[indexMargin+i].push({label:partyidx,idx:i});
+                displaydata[indexMargin+i].push({label:partyidx,idx:i,yr:party});
                 }
                 indexMargin += data[0][partyidx];
             });
 
-
             var votes = graphLayer.selectAll('.vote').data(displaydata)
+
+            var ypos = []
+            var currentYr;
+            var prevYr;
 
             votes.enter().append('circle')
                 .attr('class','vote')
@@ -116,20 +119,47 @@
                 .attr('cy', function(d, i) {
                     return -i
                 })
+                .on('mouseover', function(d) {
+                    var thisYr = d[0].yr;
+                    var noOfDeaths = deathsDisplay[parties.indexOf(thisYr)];
+                    tip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tip.html("There were <b>" + noOfDeaths + "</b> deaths in the " + thisYr)
+                        .style("left", "32%")
+                        .style("top", "43%")
+                        // .style("left", (d3.event.pageX - 28) + "px")
+                        // .style("top", (d3.event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tip.transition()
+                        .duration(1500)
+                        .style("opacity", 0);
+                })
                 .transition()
-                .duration(function(d, i) { 
+                .duration(function(d, i) {
                     return i*1.01;
                 })
                 .delay(function(d, i) {
-                    return i*20;
+                    if (i < 100)
+                        return i*20 + 1500;
+                    else
+                        return i/5 + 3500;
                 })
                 .attr('cx',function(d){ return ((d[time].label!=null)?(xScale(d[time].label)+xLocalScale(d[time].idx%barWidth)+radius+mar):(dim.graphWidth/2)); })
-                .attr('cy',function(d){return ((d[time].label!=null)?(yScale(Math.floor((d[time].idx+0.1)/barWidth))-radius-mar):0);})
+                .attr('cy',function(d){
+                    // currentYr = d[0].yr;
+                    // console.log('1')
+                    // if (currentYr != prevYr)
+                    //     console.log("new one")
+                    // prevYr = currentYr;
+                    return ((d[time].label!=null)?(yScale(Math.floor((d[time].idx+0.1)/barWidth))-radius-mar):0);})
                 .style('opacity',function(d){return (d[time].label!=null)?0.8:0.0;})
                 .style('fill',function(d){return colorScale(d[time].label);});
 
             votes.exit().remove();
-            
+                        console.log(ypos)
+
         }
         return chart;
     }

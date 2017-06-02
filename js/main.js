@@ -7,8 +7,9 @@ var data = [{
     value: 34
 }];
 
-var fillColor;
-var nodeFill;
+var fillColor,
+    nodeFill,
+    drawBarDots;
 
 
 var treeData = {
@@ -16,9 +17,12 @@ var treeData = {
     "children": [{ 
         "name": "At a Glance",
         "children": [{
-            "name": "Lives Lost",
+            "name": "People",
             "children": [{
-                    "name": "Attack Types"
+                "name": "Lives Lost",
+                "children": [{
+                        "name": "Attack Types"
+                }]
             }]
         }]
     }]
@@ -57,6 +61,10 @@ $(function() {
             fillColor = 'green';
             resetTree();
             $("#circle4").css("fill", "#fff");
+        } else if (index == 4) {
+            fillColor = 'green';
+            resetTree();
+            $("#circle5").css("fill", "#fff");
         } else {
             fillColor = 'black';
             nodeFill = '#fff';
@@ -91,14 +99,22 @@ $(function() {
 
     $("#circle3").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("incidents");
+        goToByScroll("story");
+        writeStory();
         update(2);
     });
 
     $("#circle4").on('click', function(e) {
         e.preventDefault();
-        goToByScroll("types")
+        goToByScroll("incidents");
+        drawBarDots();
         update(3);
+    });
+
+    $("#circle5").on('click', function(e) {
+        e.preventDefault();
+        goToByScroll("types")
+        update(4);
     });
 
     // Define a new scroller, and use the `.container` method to specify the desired container
@@ -114,16 +130,18 @@ $(function() {
     })
 
     d3.csv("./data/globalterrorismdb_0616dist.csv", function(error, data) {
-        var bar = BarChart()
-        var peopleChart = d3.select('#livesLostVis')
-            .datum(data)
+        drawBarDots = function() {
+            var bar = BarChart()
+            var peopleChart = d3.select('#livesLostVis')
+                .datum(data)
 
-        peopleChart.enter().append('div')
-            .attr('class', 'peopleChart')
-            .merge(peopleChart)
-            .call(bar);
-        
-        peopleChart.exit().remove();
+            peopleChart.enter().append('div')
+                .attr('class', 'peopleChart')
+                .merge(peopleChart)
+                .call(bar);
+            
+            peopleChart.exit().remove();
+        }
 
         var pie = PieChart()
         var myPieChart = d3.select('#attackTypesVis')
@@ -138,4 +156,43 @@ $(function() {
 
         myPieChart.exit().remove();
     });
+
+    var texts = ["1 person is like you and me; and like the population of Bulford, Wyoming",
+                "3 people is the average family size in the US",
+                "5 people is enough to fill a car",
+                "In a group of 20 people, 2 people are likely to have the same birthday",
+                "50 people is enough to populate the earth and maintain genetic diversity",
+                "100 people is the number of senators in the US",
+                "200 people are the number of people in the most recent Informatics cohort",
+                "700 people are enough to fill the largest classroom at UW",
+                "If people were words, then 1000 people would make up a picture"];
+    var textToDisplay;
+
+    var writeStory = function() {
+        console.log('hi')
+        d3.select("#storyDisplay").text("")
+        var counter = 0;
+
+        d3.select("h3")
+            .transition()
+            .duration(2500)
+            .on("start", function repeat() {
+                if (texts.length < counter)
+                    counter = 0;
+                textToDisplay = texts[counter++];
+                var t = d3.active(this)
+                    .style("opacity", 0)
+                    .remove();
+
+                d3.select("#storyDisplay").append("h3")
+                    .style("opacity", 0)
+                    .text(textToDisplay)
+                    .transition(t)
+                    .style("opacity", 1)
+                    .transition()
+                    .delay(3500)
+                    .on("start", repeat);
+        });
+    }
+
 });
