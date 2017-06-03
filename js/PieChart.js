@@ -42,13 +42,14 @@ var PieChart = function() {
             .value(function(d) {
                 return d.value;
             });
-
-        var tooltip = d3.select('#attackTypesVis')
+        var atv = d3.select('#attackTypesVis')
+        var atvWidth = atv.node().getBoundingClientRect().width;
+        var tooltip = atv
             .append('div')
             .attr('class', 'toooltip')
             .style('width', donutwidth + "px")
-            .style('left', (drawWidth / 2) - 35 + "px")
-            .style('top', (drawHeight / 2) + margin.top + margin.bottom + 35+ "px")
+            .style('left', atvWidth/2-donutwidth/2 + "px")
+            .style('top', (drawHeight / 2)-15 + "px")
             .style('word-break', 'break-all');
 
         tooltip.append('p')

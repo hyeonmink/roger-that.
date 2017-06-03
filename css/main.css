@@ -1,6 +1,6 @@
 body {
   height: 100vh;
-  /*overflow: hidden;*/
+  overflow: hidden;
   font-family: 'Averia Serif Libre', cursive;
   /*background-image: url('../img/candles.jpg');
   background-repeat: no-repeat;
@@ -30,7 +30,7 @@ p {
 
 .title {
 	text-anchor:middle;
-  /*width: 75vw;*/
+  width: 100%;
 }
 
 .axis text {
@@ -83,11 +83,13 @@ form {
   width: 80vw;
 }
 
-#landing {
-  margin-bottom: 0; 
+#landing h1{
+  margin-bottom: 0;
+  text-align: left;
 }
 
 #landing-title {
+  text-align: left;
   background: rgba(255, 255, 255, .4);
   color: black;
   padding: 30px;
@@ -150,7 +152,11 @@ h3, #typeStoryDisplay {
   height: 520px;
   margin: 0;
   position: absolute;
+}
+
+#typeStoryDisplay {
   padding-top: 30vh;
+  width: 100%;
 }
 
 #typeStoryDisplay {
@@ -158,15 +164,27 @@ h3, #typeStoryDisplay {
   font-weight: bold;
 }
 
-#storyImg, #storyh3 {
-  margin-right: auto;
-  margin-left:auto;
-  padding-top: 40vh;
-  /*padding-top: 50px;*/
+#storyDisplay{
   text-align: center;
 }
 
+#storyh3 {
+  width: 100%;
+  padding-top: 30vh;
+}
+
+#storyImg, #storyh3 {
+  margin-right: auto;
+  margin-left:auto;
+  text-align: center;
+}
+
+#storyImg {
+  padding-top: 40vh;
+}
+
 #livesLostVis {
+  position:absolute;
   padding-top: 20vh;
   text-align: center;
 }

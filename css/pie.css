@@ -1,5 +1,10 @@
-                                                         /* NEW */
-.toooltip {                                                        /* NEW */
+#attackTypesVis {
+    position: absolute;
+}                      
+                                   /* NEW */
+.toooltip {
+    position:relative;
+    margin-left:1px;
     background: #eee;                                               /* NEW */
     box-shadow: 0 0 5px #999999;
     color: black;                                                    /* NEW */
