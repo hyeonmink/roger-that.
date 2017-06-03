@@ -221,7 +221,7 @@ $(function() {
 
     var introTypes = function() {
         var counter = 0;
-        d3.select("#typeStoryDisplay").text("Now you may be wondering which types of attacks have taken the most lives...")
+        d3.select("#typeStoryDisplay").text("Which weapons and types of attacks have taken the most lives?")
             .transition()
             .duration(2500)
             .on("start", function next() {

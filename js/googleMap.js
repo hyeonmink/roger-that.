@@ -60,7 +60,6 @@ var googleMap = function() {
             function draw() {
                 mapContainer.innerHTML = ''
                 let filteredData = mapMap[selectedYear] ?  mapMap[selectedYear] : []
-                
                 //initialize the map
                 renderSlider(min, max)
 
@@ -134,7 +133,10 @@ var googleMap = function() {
                 document.getElementById("mapBtn").addEventListener('click', () => {
                     selectedYear = +document.getElementById('slider').value
                     if(mapMap[selectedYear]){
+                        // console.log(selectedYear)
+                        // console.log("Button Pressed: " + (new Date()).getSeconds()+"."+(new Date()).getMilliseconds())
                         coords = {}
+                        // console.log(mapMap)
                         draw()
                     } else {
                         draw()
