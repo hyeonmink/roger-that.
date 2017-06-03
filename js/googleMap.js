@@ -57,11 +57,10 @@ var googleMap = function() {
                 return d.iyear;
             })
 
-            let count = 0;
             function draw() {
                 mapContainer.innerHTML = ''
                 let filteredData = mapMap[selectedYear] ?  mapMap[selectedYear] : []
-                console.log("Start Drawing Map: "+ (new Date()).getSeconds()+"."+(new Date()).getMilliseconds())
+                
                 //initialize the map
                 renderSlider(min, max)
 
@@ -74,7 +73,6 @@ var googleMap = function() {
                     mapTypeId: mapTypeName,
                     styles: style
                 });
-                console.log("Start rendering marker: "+(new Date()).getSeconds()+"."+(new Date()).getMilliseconds())
 
                 var markers = filteredData.map((data) => {
 
@@ -88,7 +86,6 @@ var googleMap = function() {
                         coords[lati] = [longi]
                     } else {
                         while (coords[lati].indexOf(longi) != -1) {
-                            console.log(count++)
                             var angle = Math.random() * Math.PI * 2;
                             lati = +data.latitude + Math.round(1000000 * (Math.cos(angle) * mapRadius)) / 1000000;
                             longi = +data.longitude + Math.round(1000000 * (Math.sin(angle) * mapRadius)) / 1000000;
@@ -130,19 +127,14 @@ var googleMap = function() {
 
                     return marker;
                 });
-                console.log("Finish Marking markers: "+ (new Date()).getSeconds()+"."+(new Date()).getMilliseconds())
                 var markerCluster = new MarkerClusterer(drawMap, markers, {
                     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
                 });
 
                 document.getElementById("mapBtn").addEventListener('click', () => {
-                    console.clear()
                     selectedYear = +document.getElementById('slider').value
                     if(mapMap[selectedYear]){
-                        console.log(selectedYear)
-                        console.log("Button Pressed: " + (new Date()).getSeconds()+"."+(new Date()).getMilliseconds())
                         coords = {}
-                        console.log(mapMap)
                         draw()
                     } else {
                         draw()
