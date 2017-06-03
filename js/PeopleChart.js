@@ -168,7 +168,7 @@
                    tip.transition()
                        .duration(200)
                        .style("opacity", .9);
-                   tip.html("There were <b>" + noOfDeaths + "</b> deaths in the " + thisYr)
+                   tip.html("There were <b>" + noOfDeaths + "</b> innocent deaths in the " + thisYr + " due to terrorism")
                        .style("left", "32%")
                        .style("top", "43%");
                })

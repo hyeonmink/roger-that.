@@ -44,11 +44,12 @@ var PieChart = function() {
             });
         var atv = d3.select('#attackTypesVis')
         var atvWidth = atv.node().getBoundingClientRect().width;
+        var tooltipWidth = donutwidth+40
         var tooltip = atv
             .append('div')
             .attr('class', 'toooltip')
-            .style('width', donutwidth + "px")
-            .style('left', atvWidth/2-donutwidth/2 + "px")
+            .style('width', tooltipWidth + "px")
+            .style('left', atvWidth/2-tooltipWidth/2 + "px")
             .style('top', (drawHeight / 2)-15 + "px")
             .style('word-break', 'break-all');
 
@@ -99,11 +100,11 @@ var PieChart = function() {
 
                 svg.selectAll('path').on('mouseover', function(d) {
                     if (selectedColumn == "attacktype1_txt") {
-                        tooltip.select('.type').html(`<p>From<br /><strong>${d.data.key}</strong> type of attacks,</p>`);
+                        tooltip.select('.type').html(`<p>From<br/><strong>"${d.data.key}"</strong></p>`);
                         tooltip.select('.deathcount').html('<p><strong>' + Math.round(d.data.value).toLocaleString() + '</strong> people died. </p>');
                     } else {
-                        tooltip.select('.type').html(`<strong>${Math.round(d.data.value).toLocaleString()}</strong> people were killed by</p>`);
-                        tooltip.select('.deathcount').html(`<p><strong>${d.data.key}</strong> weapon type</p>`);
+                        tooltip.select('.type').html(`<p>By</br> "${d.data.key}"</p>`);
+                        tooltip.select('.deathcount').html(`<p><strong>${Math.round(d.data.value).toLocaleString()}</strong> people were killed</p>`);
                     }
                         tooltip.style('display', 'block');
                         svg.selectAll('path').attr('opacity', 0.3);
