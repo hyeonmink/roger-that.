@@ -12,6 +12,7 @@ var googleMap = function() {
 
         function renderSlider(low, high) {
             var sliderDiv = document.createElement('div');
+            sliderDiv.setAttribute('class', 'sdiv')
             var lowest = document.createElement('b');
             lowest.innerHTML = low;
             var highest = document.createElement('b');
@@ -26,6 +27,7 @@ var googleMap = function() {
             slider.setAttribute('data-slider-value', selectedYear)
 
             var submitBtn = document.createElement('button')
+            submitBtn.setAttribute('class', 'btn btn-primary')
             submitBtn.setAttribute('id', 'mapBtn')
             submitBtn.innerHTML = 'Search'
 

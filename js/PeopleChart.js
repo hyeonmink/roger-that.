@@ -22,7 +22,7 @@
 
        var chart = function(selection) {
            var svg = d3.select('#livesLostVis').append('svg')
-               .attr('width', dim.width)
+               .attr('width', dim.width + 30)
                .attr('height', dim.height);
            var axisLayer = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
            var graphLayer = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -32,18 +32,27 @@
            var yScale = d3.scaleBand().range([dim.graphHeight, 0]);
            var colorScale = d3.scaleOrdinal(d3.schemeGreys[8]);
 
-           // var color = d3.scaleOrdinal()
-           // .range(d3.schemeGreys[6]);
-
            var xAxis = d3.axisBottom().scale(xScale);
            var yAxis = d3.axisLeft().scale(yScale);
 
+            var xAxisText = svg.append('text')
+                .attr('transform', 'translate(' +  (dim.graphWidth / 2) + ', ' + (margin.top + dim.graphHeight + 50) + ')')
+                .attr('class', 'axis-label')
+                .text('Decades')
+                .style('font-size', '15px');
+
+            var yAxisText = svg.append('text')
+                .attr('transform', 'translate(' + (margin.left - 40) + ', ' + (margin.top + dim.graphHeight / 2) + ') rotate(-90)')
+                .attr('class', 'axis-label')
+                .text('Number of Deaths')
+                .style('font-size', '15px')
+
            var xAxisObj = axisLayer.append('g')
-               .attr('transform', 'translate(' + 0 + ',' + dim.graphHeight + ')')
+               .attr('transform', 'translate(' + 30 + ',' + dim.graphHeight + ')')
                .attr('class', 'axis')
                .call(xAxis);
            var yAxisObj = axisLayer.append('g')
-               .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
+               .attr('transform', 'translate(' + 30 + ',' + 0 + ')')
                .attr('class', 'axis')
                .call(yAxis);
 
@@ -107,7 +116,7 @@
                return d % 10 === 0;
            }));
            yAxis.tickFormat(function(d) {
-               return (d * barWidth * 100);
+               return (d * barWidth * 100).toLocaleString();
            });
            xScale.domain(parties.map(function(d, i) {
                return i;
@@ -148,7 +157,7 @@
                .attr('class', 'vote')
                .attr('r', radius)
                .attr('cx', function(d, i) {
-                   return i / 2
+                   return (i / 2 + 30)
                })
                .attr('cy', function(d, i) {
                    return -i
@@ -179,7 +188,7 @@
                        return i / 5 + 3500;
                })
                .attr('cx', function(d) {
-                   return ((d[time].label != null) ? (xScale(d[time].label) + xLocalScale(d[time].idx % barWidth) + radius + mar) : (dim.graphWidth / 2));
+                   return ((d[time].label != null) ? (xScale(d[time].label) + xLocalScale(d[time].idx % barWidth) + radius + mar +30) : (dim.graphWidth / 2));
                })
                .attr('cy', function(d) {
                    return ((d[time].label != null) ? (yScale(Math.floor((d[time].idx + 0.1) / barWidth)) - radius - mar) : 0);

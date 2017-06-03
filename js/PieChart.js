@@ -8,8 +8,6 @@ var PieChart = function() {
 
     var width = 960;
     var height = 600;
-    // var drawWidth = width - margin.left - margin.right;
-    // var drawHeight = height - margin.top - margin.bottom;
     var drawWidth = width;
     var drawHeight = height;
     var radius = Math.min(width, height) / 2;

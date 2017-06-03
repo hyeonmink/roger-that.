@@ -24,7 +24,10 @@ var treeData = {
                 "children": [{
                     "name": "Attack Types",
                     "children": [{
-                        "name": "Incidents"
+                        "name": "Incidents",
+                        "children": [{
+                            "name": "Conclusion"
+                        }]
                     }]
                 }]
             }]
@@ -56,6 +59,9 @@ $(function() {
         } else if (index == 5) {
             resetTree();
             $("#circle6").css("fill", "rgb(128, 128, 128)");
+        } else if (index == 6) {
+            resetTree();
+            $("#circle7").css("fill", "rgb(128, 128, 128)");
         } else {
             nodeFill = 'rgb(128, 128, 128)';
             resetTree();
@@ -63,7 +69,7 @@ $(function() {
     }
 
     var resetTree = function() {
-        for (var i = 1; i <= 6; i++) {
+        for (var i = 1; i <= 7; i++) {
             var circleID = "#circle" + i;
             $(circleID).css("fill", "#fff");
         }
@@ -117,6 +123,12 @@ $(function() {
         update(5);
     });
 
+    $("#circle7").on('click', function(e) {
+        e.preventDefault();
+        goToByScroll("conclusion")
+        update(6);
+    });
+
     // Define a new scroller, and use the `.container` method to specify the desired container
     var scroll = scroller()
         .container(d3.select('#graphic'));
@@ -129,14 +141,14 @@ $(function() {
         update(index);
     })
 
-    var texts = ["1 person is like you and me; and like the population of Bulford, Wyoming",
+    var texts = ["1 person is like you and me; and is the population of Bulford, Wyoming",
         "3 people is the average family size in the US",
         "5 people is enough to fill a car",
         "In a group of 20 people, 2 people are likely to have the same birthday",
         "50 people is enough to populate the earth and maintain genetic diversity",
         "100 people is the number of senators in the US",
         "each dot here represents 100 people",
-        "200 people are the number of people in the most recent Informatics cohort",
+        "200 is the number of people in the most recent Informatics cohort",
         "700 people are enough to fill the largest classroom at UW",
         "If people were words, then 1000 people would make up a picture"
     ];
@@ -231,7 +243,7 @@ $(function() {
                     .delay(3500)
                     .on("start", next);
                 
-                if (counter == 1) {
+                if (counter == 1 && $('#circle4').css('fill') == 'rgb(128, 128, 128)') {
                     goToByScroll("types");
                     drawTypesChart();
                     update(4);
