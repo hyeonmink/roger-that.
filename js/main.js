@@ -222,7 +222,7 @@ $(function() {
                 d3.select("#storyImg").append("img")
                     .style('width', '100px')
                     .style("opacity", 0)
-                    .attr("src", "../img/" + imgToDisplay)
+                    .attr("src", "./img/" + imgToDisplay)
                     .transition(t)
                     .style("opacity", 1)
                     .transition()
