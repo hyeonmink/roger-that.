@@ -8,17 +8,19 @@ var PieChart = function() {
 
     var width = 960;
     var height = 600;
-    var drawWidth = width - margin.left - margin.right;
-    var drawHeight = height - margin.top - margin.bottom;
+    // var drawWidth = width - margin.left - margin.right;
+    // var drawHeight = height - margin.top - margin.bottom;
+    var drawWidth = width;
+    var drawHeight = height;
     var radius = Math.min(width, height) / 2;
     var donutwidth = radius / 2;
 
     var color = d3.scaleOrdinal()
         .range(d3.schemeGreys[9]);
 
-    var buttonContainer = $('#attackTypesVis').append('<form>');
-    buttonContainer.append('<input type="radio" name="gender" value="attacktype1_txt" checked> Attack Type<br>');
-    buttonContainer.append('<input type="radio" name="gender" value="weaptype1_txt"> Weapon Type')
+    var buttonContainer = $('#attackTypesVis').append('<div class="btn-group" id="buttonContainer" data-toggle="buttons">');
+    $('#buttonContainer').append('<label id="test" class="btn btn-primary active"><input type="radio" value="attacktype1_txt" checked> Attack Type<br> </label>');
+    $('#buttonContainer').append('<label class="btn btn-primary"><input type="radio" id="test2" value="weaptype1_txt"> Weapon Type </label>')
 
     var selectedColumn = "attacktype1_txt"
 
@@ -48,7 +50,7 @@ var PieChart = function() {
             .attr('class', 'toooltip')
             .style('width', donutwidth + "px")
             .style('left', (drawWidth / 2) - 35 + "px")
-            .style('top', (drawHeight / 2) + "px")
+            .style('top', (drawHeight / 2) + margin.top + margin.bottom + 35+ "px")
             .style('word-break', 'break-all');
 
         tooltip.append('p')
@@ -82,7 +84,6 @@ var PieChart = function() {
                         })
                     })
                     .entries(data);
-                console.log(prepData);
                 color.domain([0, data.length]);
 
                 var arc = g.selectAll(".arc")
@@ -121,10 +122,10 @@ var PieChart = function() {
         }
         draw();
 
-        buttonContainer.click(function(event) {
-            selectedColumn = event.target.value;
+        $('#buttonContainer').click(function(event) {
+            selectedColumn = event.target.childNodes[0].defaultValue;
             draw();
-        }) 
+        })
 
     }
 
